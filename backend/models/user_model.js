@@ -5,14 +5,15 @@ const userSchema = new Schema({
     name:{
         type:String
     },
-    userCategory:{
+    password:{
         type:String
     },
     phoneNumber:{
         type:Number
     },
-    
-
+    email:{
+        type:String
+    },
 })
 
-mongoose.export =  User = mongoose.model('User', newSchema)
+mongoose.export =  User = mongoose.model('User', userSchema)
