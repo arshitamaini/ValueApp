@@ -68,7 +68,82 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
-        body: SafeArea(child: Container()),
+        body: SafeArea(
+            child: Padding(
+          padding: const EdgeInsets.all(18.0),
+          child: Column(
+            children: [
+              Expanded(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: CategoryCard(cardName: 'Nitnem'),
+                    ),
+                    const SizedBox(
+                      width: 20.0,
+                    ),
+                    Expanded(
+                      child: CategoryCard(
+                        cardName: 'Sewa',
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: CategoryCard(cardName: 'Happiness'),
+                    ),
+                    const SizedBox(
+                      width: 20.0,
+                    ),
+                    Expanded(
+                      child: CategoryCard(
+                        cardName: 'Good Behaviour',
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: CategoryCard(cardName: 'Planet Care'),
+                    ),
+                    const SizedBox(
+                      width: 20.0,
+                    ),
+                    Expanded(
+                      child: CategoryCard(
+                        cardName: 'Health',
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+        )),
+      ),
+    );
+  }
+}
+
+class CategoryCard extends StatelessWidget {
+  const CategoryCard({Key? key, required this.cardName, required this.onPress})
+      : super(key: key);
+  final String cardName;
+  final VoidCallback onPress;
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height / 4.7,
+      child: GestureDetector(
+        child: Text(cardName),
+        onTap: onPress,
       ),
     );
   }

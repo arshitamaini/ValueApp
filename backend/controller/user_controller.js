@@ -1,16 +1,18 @@
-const {User} = require('../models/user_model')
+//const User = require('../models/user_model')
 const { json } = require('body-parser')
 const { trusted } = require('mongoose')
 const Cryptr = require('cryptr');
+const { UserController } = require('moongose/controller');
 const cryptr = new Cryptr('ValueAppKey12345', { pbkdf2Iterations: 10000, saltLength: 10 });
 
+const userModel = require('../models/user_model')
 
 
 var userController = {
 
-    login : async (req,res) => {
+    login : async function(req,res) {
         
-        User.findOne({phoneNumber:req.body.phoneNumber}, (err,user)=>{
+        await userModel.find({phoneNumber:req.body.phoneNumber}, (err,user)=>{
             if(err){
                 console.log(err)
                 res.json({ 'success': false, 'message': 'Something went wrong, please try again later ', code: 500, info:{} })
@@ -38,9 +40,9 @@ var userController = {
         })
     },
 
-    signUp : async (req,res) => {
-    
-        User.findOne({phoneNumber:req.body.phoneNumber}, (err,user)=>{
+    signUp : async function(req,res) {
+        try{       
+         await userModel.find({phoneNumber:req.body.phoneNumber}, (err,user)=>{
             if(err){
                 console.log(err)
                 res.json({ 'success': false, 'message': 'Something went wrong, please try again later ', code: 500, info:{} })
@@ -64,15 +66,16 @@ var userController = {
                      res.json({'success': false,'message':'Account Already exists', code:500, info:{}})
                 }
             }
-        })
+        })}catch(e){
+            res.json({'success': false,'message':e, code:500, info:{}})
+            console.log('error'+e)
+        }
+    
+
     }
 
 }
 
-module.exports = {
-    login:userController.login,
-    signUp:userController.signUp
-}
-
+module.exports = userController
 
 
