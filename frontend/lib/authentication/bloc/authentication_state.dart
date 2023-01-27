@@ -5,7 +5,13 @@ abstract class AuthenticationState {}
 class AuthenticationInitial extends AuthenticationState {}
 
 class SuccessState extends AuthenticationState {
-  SuccessState();
+  final userName;
+  final userEmail;
+  final userPhoneNumber;
+  SuccessState(
+      {required this.userEmail,
+      required this.userName,
+      required this.userPhoneNumber});
 }
 
 class ErrorState extends AuthenticationState {

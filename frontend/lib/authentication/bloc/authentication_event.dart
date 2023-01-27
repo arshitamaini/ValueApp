@@ -17,13 +17,11 @@ class CreateAccountEvent extends AuthenticationEvent {
   final String phoneNumber;
   final String email;
   final String password;
-  final String userCategory;
 
   CreateAccountEvent({
     required this.email,
     required this.password,
     required this.name,
     required this.phoneNumber,
-    required this.userCategory,
   });
 }

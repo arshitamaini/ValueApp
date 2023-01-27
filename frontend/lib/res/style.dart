@@ -20,6 +20,7 @@ abstract class AppStyle {
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
           borderSide: BorderSide(color: Colors.white, width: 2.0),
         ),
+        contentPadding: const EdgeInsets.only(left: 15.0),
         enabledBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
           borderSide: BorderSide(color: Color(0xFFD9AB68), width: 2.0),
@@ -28,4 +29,6 @@ abstract class AppStyle {
 
   static TextStyle screenHeadingStyle = const TextStyle(
       color: Color(0xFFD9AB68), fontSize: 35.0, fontWeight: FontWeight.w700);
+  static TextStyle homeDrawerStyle = const TextStyle(
+      color: Color(0xFFD9D9D9), fontWeight: FontWeight.w500, fontSize: 20.0);
 }
