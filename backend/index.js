@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const port = 8080 || process.PORT
+const port = 3000 || process.PORT
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
@@ -14,7 +14,12 @@ app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
 
 app.use('/valueApp', require('./routes/controller_index'))
+app.get('/', (req, res) => {
+    res.json({"message": "Welcome to MyValues App."});
+});
 
 app.listen(port, ()=>{
     console.log('port running on ' + port)
 })
+
+module.exports = app;

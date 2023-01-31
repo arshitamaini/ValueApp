@@ -1,14 +1,6 @@
-//const User = require('../models/user_model')
-const { json } = require('body-parser')
-const { trusted } = require('mongoose')
-const Cryptr = require('cryptr');
-const { UserController } = require('moongose/controller');
-const cryptr = new Cryptr('ValueAppKey12345', { pbkdf2Iterations: 10000, saltLength: 10 });
-
 const userModel = require('../models/user_model')
 
-
-var userController = {
+var UserController = {
 
     login : async function(req,res) {
         
@@ -22,16 +14,16 @@ var userController = {
                     res.json({ 'success': false, 'message': 'Account Not Found, Please SignIn', code: 500, info:{} })
                 }else{
                     user = JSON.parse(JSON.stringify(user))
-                    decryptedPassword = cryptr.decrypt(user.password);
+                    // decryptedPassword = cryptr.decrypt(user.password);
                     
-                    if(decryptedPassword == req.body.password){
-                        console.log(user)
-                        res.json({ 'success': true, 'message': 'Login Successful', code: 500, info : user  })
-                    }else{
-                        console.log('incorrectPasword' )
-                        res.json({ 'success': false, 'message': 'Incorrect password or phone number ', code: 500, info:{} })
-                    }
-    
+                    // if(decryptedPassword == req.body.password){
+                    //     console.log(user)
+                    //     res.json({ 'success': true, 'message': 'Login Successful', code: 500, info : user  })
+                    // }else{
+                    //     console.log('incorrectPasword' )
+                    //     res.json({ 'success': false, 'message': 'Incorrect password or phone number ', code: 500, info:{} })
+                    // }
+                    res.json({ 'success': false, 'message': 'Incorrect password or phone number ', code: 500, info:{} })
                 }
                
     
@@ -48,10 +40,10 @@ var userController = {
                 res.json({ 'success': false, 'message': 'Something went wrong, please try again later ', code: 500, info:{} })
             }else{
                 if(user ==  null){
-                    encryptedPassword= cryptr.encrypt(req.body.password);
+                    // encryptedPassword= cryptr.encrypt(req.body.password);
                     const user = User({
                         phoneNumber: req.body.phoneNumber,
-                        password: encryptedPassword,
+                        password: req.body.password,
                         name: req.body.name,
                         email:req.body.email,
                     })
@@ -76,6 +68,6 @@ var userController = {
 
 }
 
-module.exports = userController
+module.exports = UserController
 
 
