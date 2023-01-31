@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:value_app/authentication/screens/login_screen.dart';
@@ -84,10 +85,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ProfileScreen(
-                                    email: widget.email,
-                                    name: widget.name,
-                                    phoneNumber: widget.phoneNumber)));
+                                builder: (context) => BlocProvider(
+                                      create: (context) => ProfileBloc(),
+                                      child: const ProfileScreen(),
+                                    )));
                       },
                     ),
                   ),
@@ -97,11 +98,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: ListTile(
                     leading: const Icon(FontAwesomeIcons.home,
                         color: Color(0xFFbD9D9D9)),
-                    // leading: const CircleAvatar(
-                    //   radius: 18.0,
-                    //   backgroundImage:
-                    //       AssetImage('assets/images/dashboardIcon.png'),
-                    // ),
                     title: Text('Dashboard', style: AppStyle.homeDrawerStyle),
                   ),
                 ),
