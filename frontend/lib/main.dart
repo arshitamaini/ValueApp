@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:value_app/authentication/bloc/authentication_bloc.dart';
-import 'package:value_app/authentication/screens/login_screen.dart';
-import 'package:value_app/home/screens/home_screen.dart';
+import 'authentication/screens/splash_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized;
@@ -20,8 +18,7 @@ class MyApp extends StatelessWidget {
       create: ((context) => AuthenticationBloc()),
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          // home: LoginScreen(),
-          home: const HomeScreen(name: 'Arshita', phoneNumber: '789456123'),
+          home: const SplashScreen(),
           theme: ThemeData.dark().copyWith()),
     );
   }
