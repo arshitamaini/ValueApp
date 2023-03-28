@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:value_app/authentication/bloc/authentication_bloc/authentication_bloc.dart';
 import 'dart:async';
 
 import 'package:value_app/authentication/screens/login_screen.dart';
@@ -13,14 +15,15 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  String? name;
-  String? phoneNumber;
-  String? email;
+  String? firstName;
+  String? lastName;
+  String? emailPhoneNumber;
+
   Future getdata() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    name = prefs.getString('name');
-    phoneNumber = prefs.getString('phoneNumber');
-    email = prefs.getString('email');
+    firstName = prefs.getString('firstName');
+    lastName = prefs.getString('lastName');
+    emailPhoneNumber = prefs.getString('emailPhoneNumber');
   }
 
   @override
@@ -33,12 +36,15 @@ class _SplashScreenState extends State<SplashScreen> {
             () => Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => name == null
-                        ? LoginScreen()
+                    builder: (context) => firstName == null || firstName == ''
+                        ? BlocProvider(
+                            create: (context) => AuthenticationBloc(),
+                            child: const LoginScreen(),
+                          )
                         : HomeScreen(
-                            name: name.toString(),
-                            phoneNumber: phoneNumber.toString(),
-                            email: email.toString()))));
+                            firstName: firstName.toString(),
+                            lastName: lastName.toString(),
+                            emailPhoneNumber: emailPhoneNumber.toString()))));
       },
     );
   }
@@ -46,17 +52,12 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF101415),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Center(
-              child: Image(
-                  image: AssetImage('assets/images/splashScreenLogo.png'))),
-          Center(
-              child: Image(
-                  image: AssetImage('assets/images/splashScreenText.png'))),
-        ],
+      backgroundColor: const Color(0xFF101415),
+      body: Container(
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('assets/images/splashScreenBg.png'),
+                fit: BoxFit.cover)),
       ),
     );
   }

@@ -6,6 +6,6 @@ class FetchData extends ProfileEvent {
   FetchData();
 }
 
-class getImageFromGallery extends ProfileEvent {
-  getImageFromGallery();
+class GetImageFromGallery extends ProfileEvent {
+  GetImageFromGallery();
 }
