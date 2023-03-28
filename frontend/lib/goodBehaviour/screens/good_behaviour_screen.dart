@@ -17,7 +17,12 @@ class _GoodBehaviourScreenState extends State<GoodBehaviourScreen> {
     'Find ways to donate',
     'Plant a vegetable garden'
   ];
-  List taskMap = [{'task': 'A','isChecked':false},{'task': 'B','isChecked':false},{'task': 'C','isChecked':false},{'task': 'D','isChecked':false},];
+  List taskMap = [
+    {'task': 'A', 'isChecked': false},
+    {'task': 'B', 'isChecked': false},
+    {'task': 'C', 'isChecked': false},
+    {'task': 'D', 'isChecked': false},
+  ];
   List<bool> taskCheckbox = [false, false, false, false];
   @override
   Widget build(BuildContext context) {
@@ -81,7 +86,7 @@ class _GoodBehaviourScreenState extends State<GoodBehaviourScreen> {
                                 child: SizedBox(
                                   height: 131.0,
                                   child: Card(
-                                    // elevation: 4,
+                                    elevation: 4,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                     ),
@@ -94,7 +99,7 @@ class _GoodBehaviourScreenState extends State<GoodBehaviourScreen> {
                                             builder: (context, state) {
                                               bool isActive = false;
                                               if (state is CheckboxClickState) {
-                                                isActive = state.isActive;
+                                                isActive = state.isActive && (index == state.index);
                                               }
                                               return Checkbox(
                                                   activeColor:
@@ -105,7 +110,7 @@ class _GoodBehaviourScreenState extends State<GoodBehaviourScreen> {
                                                         .read<CheckboxBloc>()
                                                         .add(CheckboxClickEvent(
                                                             isActive:
-                                                                isActive));
+                                                                isActive, index: index));
                                                   }));
                                             },
                                           ),

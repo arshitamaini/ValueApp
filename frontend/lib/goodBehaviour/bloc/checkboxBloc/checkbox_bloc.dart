@@ -10,7 +10,6 @@ class CheckboxBloc extends Bloc<CheckboxEvent, CheckboxState> {
   Future<void> _mapCheckboxClickEvent(
       CheckboxClickEvent event, Emitter<CheckboxState> emit) async {
     emit(CheckboxInitial());
-    emit(CheckboxClickState(isActive: !event.isActive
-    ));
+    emit(CheckboxClickState(isActive: !event.isActive, index: event.index));
   }
 }
