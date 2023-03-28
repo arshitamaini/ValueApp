@@ -74,46 +74,67 @@ class _PlanetCareScreenState extends State<PlanetCareScreen> {
                     itemBuilder: ((context, index) {
                       return Container(
                         decoration: BoxDecoration(
-                          color: AppColor.primaryColor,
-                          border: Border.all(color: AppColor.primaryColor),
+                          color: Colors.white,
+                          border: Border.all(color: Colors.transparent),
                         ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Container(
-                              width: 106.0,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: AppColor.primaryColor,
-                                border:
-                                    Border.all(color: AppColor.primaryColor),
-                              ),
-                              child: Text(
-                                taskList[index],
-                                style: const TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w400),
+                            Expanded(
+                              flex: 3,
+                              child: Stack(
+                                children: [
+                                  ConstrainedBox(
+                                    constraints: const BoxConstraints(
+                                      maxHeight: 300,
+
+                                    ),
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: AppColor.primaryColor,
+                                        border:
+                                            Border.all(color: AppColor.primaryColor),
+                                      ),
+                                      child: RotatedBox(
+                                        quarterTurns: 3,
+                                        child: Text(
+                                          taskList[index],
+                                          style: const TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+
+                                  // Semi-Circle Container
+                                  Positioned(
+                                    right: -24,
+                                    child: Container(
+                                        height: 56.0,
+                                        width: 56 / 2,
+                                        decoration: BoxDecoration(
+                                          color: AppColor.primaryColor,
+                                          border:
+                                              Border.all(color: AppColor.primaryColor),
+                                          borderRadius: const BorderRadius.only(
+                                            topRight: Radius.circular(100),
+                                            bottomRight: Radius.circular(100),
+                                          ),
+                                        )),
+                                  ),
+                                ],
                               ),
                             ),
-                            // Semi-Circle Container
-                            // Container(
-                            //     height: 56.0,
-                            //     width: 56 / 2,
-                            //     decoration: BoxDecoration(
-                            //       color: AppColor.primaryColor,
-                            //       border:
-                            //           Border.all(color: AppColor.primaryColor),
-                            //       borderRadius: const BorderRadius.only(
-                            //         topRight: Radius.circular(100),
-                            //         bottomRight: Radius.circular(100),
-                            //       ),
-                            //     )),
+
                             Expanded(
+                              flex: 7,
                               child: Container(
                                 padding: const EdgeInsets.only(
-                                    right: 40.0, left: 14, top: 44.0),
+                                    right: 16.0, left: 16, top: 24.0, bottom: 24),
                                 color: Colors.white,
                                 child: Container(
                                   padding: const EdgeInsets.all(8.0),

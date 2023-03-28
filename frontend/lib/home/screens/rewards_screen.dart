@@ -85,9 +85,9 @@ class _RewardsScreenState extends State<RewardsScreen> {
                                   fontWeight: FontWeight.w600)),
                         ],
                       ),
-                      const Row(
+                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
+                        children: const [
                           Text('Completed',
                               style: TextStyle(
                                   color: AppColor.textColor,

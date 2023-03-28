@@ -54,9 +54,9 @@ class _SewaScreenState extends State<SewaScreen> {
                           borderRadius: BorderRadius.all(Radius.circular(15.0)),
                           side: BorderSide(
                               color: AppColor.primaryColor, width: 0.5))),
-                  child: const Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: const [
                       Icon(
                         Icons.add,
                         color: AppColor.primaryColor,

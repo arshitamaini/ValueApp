@@ -77,69 +77,63 @@ class _GoodBehaviourScreenState extends State<GoodBehaviourScreen> {
                   Column(
                     children: [
                       Expanded(
-                        child: ListView.builder(
-                            itemCount: 4,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 31.0, right: 31.0, top: 29.0),
-                                child: SizedBox(
-                                  height: 131.0,
-                                  child: Card(
-                                    elevation: 4,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        children: [
-                                          BlocBuilder<CheckboxBloc,
-                                              CheckboxState>(
-                                            builder: (context, state) {
-                                              bool isActive = false;
-                                              if (state is CheckboxClickState) {
-                                                isActive = state.isActive && (index == state.index);
-                                              }
-                                              return Checkbox(
-                                                  activeColor:
-                                                      AppColor.primaryColor,
-                                                  value: isActive,
-                                                  onChanged: ((value) {
-                                                    context
-                                                        .read<CheckboxBloc>()
-                                                        .add(CheckboxClickEvent(
-                                                            isActive:
-                                                                isActive, index: index));
-                                                  }));
-                                            },
+                        child: BlocBuilder<CheckboxBloc, CheckboxState>(
+                          builder: (context, state) {
+                              taskCheckbox = state is CheckboxClickState ? state.taskCheckList : taskCheckbox;
+                              return  ListView.builder(
+                                  itemCount: 4,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 31.0, right: 31.0, top: 29.0),
+                                      child: SizedBox(
+                                        height: 131.0,
+                                        child: Card(
+                                          elevation: 4,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(20.0),
                                           ),
-                                          const SizedBox(
-                                            width: 9.0,
-                                          ),
-                                          Image(
-                                              image: AssetImage(
-                                                  'assets/images/good_behaviour_task${index + 1}.png')),
-                                          const SizedBox(
-                                            width: 9.0,
-                                          ),
-                                          Expanded(
-                                            child: Text(
-                                              taskList[index],
-                                              overflow: TextOverflow.visible,
-                                              style: const TextStyle(
-                                                  color: AppColor.primaryColor,
-                                                  fontSize: 14.0,
-                                                  fontWeight: FontWeight.w600),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Row(
+                                              children: [
+                                                Checkbox(
+                                                    activeColor:
+                                                    AppColor.primaryColor,
+                                                    value: taskCheckbox[index],
+                                                    onChanged: ((value) {
+                                                      context
+                                                          .read<CheckboxBloc>()
+                                                          .add(CheckboxClickEvent(taskCheckList: taskCheckbox, index: index));
+                                                    })),
+                                                const SizedBox(
+                                                  width: 9.0,
+                                                ),
+                                                Image(
+                                                    image: AssetImage(
+                                                        'assets/images/good_behaviour_task${index + 1}.png')),
+                                                const SizedBox(
+                                                  width: 9.0,
+                                                ),
+                                                Expanded(
+                                                  child: Text(
+                                                    taskList[index],
+                                                    overflow: TextOverflow.visible,
+                                                    style: const TextStyle(
+                                                        color: AppColor.primaryColor,
+                                                        fontSize: 14.0,
+                                                        fontWeight: FontWeight.w600),
+                                                  ),
+                                                )
+                                              ],
                                             ),
-                                          )
-                                        ],
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }),
+                                    );
+                                  });
+                            },
+                          ),
                       ),
                       Container(
                         padding: const EdgeInsets.only(
@@ -159,9 +153,9 @@ class _GoodBehaviourScreenState extends State<GoodBehaviourScreen> {
                                     side: BorderSide(
                                         color: AppColor.primaryColor,
                                         width: 0.5))),
-                            child: const Row(
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
+                              children: const[
                                 Icon(
                                   Icons.add,
                                   color: AppColor.primaryColor,

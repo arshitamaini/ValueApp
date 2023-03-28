@@ -329,9 +329,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width / 1.3,
-                          child: const Row(
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
+                            children: const [
                               Expanded(
                                 child: Divider(
                                     height: 40.0,
@@ -375,9 +375,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.w500),
                             ),
-                            child: const Row(
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
+                              children: const [
                                 CircleAvatar(
                                   radius: 13.0,
                                   backgroundColor: Colors.transparent,

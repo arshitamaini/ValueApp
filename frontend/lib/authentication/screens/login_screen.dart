@@ -215,6 +215,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: MediaQuery.of(context).size.width / 1.3,
                         child: ElevatedButton(
                           onPressed: (() {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => const HomeScreen(
+                                    firstName: "Nitesh",
+                                    lastName: "Verma",
+                                    emailPhoneNumber: "797977458"),
+                              ),
+                            );
+
                             // if (_passwordController.text == '' ||
                             //     _emailPhoneNumberController.text == '') {
                             //   ScaffoldMessenger.of(context)
@@ -229,6 +238,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       password: _passwordController.text,
                                     ),
                                   );
+
                             } else {
                               log('not ok');
                             }
@@ -244,9 +254,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width / 1.3,
-                        child: const Row(
+                        child:  Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                          children: const [
                             Expanded(
                               child: Divider(
                                   height: 50.0,
@@ -290,9 +300,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 fontSize: 20.0,
                                 fontWeight: FontWeight.w500),
                           ),
-                          child: const Row(
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
+                            children: const [
                               CircleAvatar(
                                 radius: 15.0,
                                 backgroundColor: Colors.transparent,
