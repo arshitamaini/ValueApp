@@ -40,4 +40,6 @@ abstract class AppStyle {
       fontSize: 14, fontWeight: FontWeight.w500, color: AppColor.textColor);
   static TextStyle sideMenuTextStyle = const TextStyle(
       color: AppColor.textColor, fontWeight: FontWeight.w500, fontSize: 18.0);
+  static TextStyle mentalFitnessQuestionStyle = const TextStyle(
+      color: AppColor.textColor, fontSize: 14, fontWeight: FontWeight.w500);
 }

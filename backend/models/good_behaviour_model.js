@@ -9,5 +9,5 @@ var GoodBehaviourSchema =  mongoose.Schema({
     
 })
 
-var NitnemSchema = mongoose.model('goodbehaviourtask', GoodBehaviourSchema, 'goodbehaviourtask'); 
+var GoodBehaviourSchema = mongoose.model('goodbehaviourtask', GoodBehaviourSchema, 'goodbehaviourtask'); 
 module.exports = GoodBehaviourSchema;

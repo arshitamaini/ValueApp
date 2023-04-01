@@ -65,6 +65,27 @@ var UserController = {
             res.json({'success': false,'message':e, code:500, info:{}})
           
         }
+    },
+
+    changePassword : async function(req,res) {
+        try{   
+         userModel.findOne({emailPhoneNumber:req.body.emailPhoneNumber, password:req.body.password}, (err,user)=>{
+            if(err){    
+                console.log(err)
+                res.json({ 'success': false, 'message': 'Something went wrong, please try again later ', code: 500, info:{} })
+            }else{
+                if(user ==  null){
+                    
+                }else{
+                     res.json({'success': false,'message':'Account Already exists', code:500, info:{}})
+                }
+            }
+        })}
+        catch(e){
+            console.log('error'+e)
+            res.json({'success': false,'message':e, code:500, info:{}})
+          
+        }
     }
 }
 

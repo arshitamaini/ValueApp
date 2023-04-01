@@ -45,6 +45,8 @@ dependencies:
   image_cropper: ^3.0.1
   pattern_lock: ^2.0.0
   intl: ^0.18.0
+  percent_indicator: ^4.2.3
+  flutter_rating_bar: ^4.0.1
 
 
 dev_dependencies:

@@ -215,32 +215,32 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: MediaQuery.of(context).size.width / 1.3,
                         child: ElevatedButton(
                           onPressed: (() {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const HomeScreen(
-                                    firstName: "Nitesh",
-                                    lastName: "Verma",
-                                    emailPhoneNumber: "797977458"),
-                              ),
-                            );
+                            // Navigator.of(context).push(
+                            //   MaterialPageRoute(
+                            //     builder: (context) => const HomeScreen(
+                            //         firstName: "Nitesh",
+                            //         lastName: "Verma",
+                            //         emailPhoneNumber: "797977458"),
+                            //   ),
+                            // );
 
-                            // if (_passwordController.text == '' ||
-                            //     _emailPhoneNumberController.text == '') {
-                            //   ScaffoldMessenger.of(context)
-                            //       .showSnackBar(const SnackBar(
-                            //     content: Text('Please Enter Complete Details'),
-                            //   ));
-                            if (formKey.currentState!.validate()) {
-                              context.read<AuthenticationBloc>().add(
-                                    LoginWithPhoneNumberAndPasswordEvent(
-                                      emailPhoneNumber:
-                                          _emailPhoneNumberController.text,
-                                      password: _passwordController.text,
-                                    ),
-                                  );
-
-                            } else {
-                              log('not ok');
+                            if (_passwordController.text == '' ||
+                                _emailPhoneNumberController.text == '') {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(
+                                content: Text('Please Enter Complete Details'),
+                              ));
+                              if (formKey.currentState!.validate()) {
+                                context.read<AuthenticationBloc>().add(
+                                      LoginWithPhoneNumberAndPasswordEvent(
+                                        emailPhoneNumber:
+                                            _emailPhoneNumberController.text,
+                                        password: _passwordController.text,
+                                      ),
+                                    );
+                              } else {
+                                log('not ok');
+                              }
                             }
                           }),
                           style: AppStyle.elevatedButtonStyle,
@@ -254,9 +254,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width / 1.3,
-                        child:  Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
+                          children:  [
                             Expanded(
                               child: Divider(
                                   height: 50.0,
@@ -300,9 +300,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 fontSize: 20.0,
                                 fontWeight: FontWeight.w500),
                           ),
-                          child: Row(
+                          child: const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
+                            children: [
                               CircleAvatar(
                                 radius: 15.0,
                                 backgroundColor: Colors.transparent,
