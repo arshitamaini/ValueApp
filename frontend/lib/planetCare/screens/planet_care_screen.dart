@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:value_app/checkbox_bloc/checkbox_bloc.dart';
 import 'package:value_app/res/color.dart';
 
 class PlanetCareScreen extends StatefulWidget {
@@ -9,44 +11,48 @@ class PlanetCareScreen extends StatefulWidget {
 }
 
 class _PlanetCareScreenState extends State<PlanetCareScreen> {
-  List taskList = [
+  List<String> taskList = [
     'Plant a tree',
     'Join a cleanup',
     'Cut back on plastic',
     'Clean out a closet'
   ];
-  List taskDescription = [
+  List<String> taskDescription = [
     'While this seems one of the simplest Earth Day project ideas, the act of planting a tree has so many benefits. Youre creating a new habitat for wildlife, helping to clean the air, and replacing resources that have been used.',
     'There are lots of Earth Day activities that involve cleaning up parks, beaches, river and stream banks, and more.',
     'Walk around your home and see what kind of disposable plastics you are using and where they can be replaced with reusable options.',
     'Everyone has some usable items lying around that have been forgotten. Clean out a closet and donate gently used things to local charities to give them new life.'
   ];
+  List<bool> taskCheckbox = [false, false, false, false];
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Column(
+        backgroundColor: Colors.white,
+        body: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  width: 106.0,
-                  height: 80.0,
-                  color: AppColor.primaryColor,
-                  padding: const EdgeInsets.only(top: 8.0),
-                  alignment: Alignment.centerLeft,
-                  child: TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Icon(
-                        Icons.arrow_back,
-                        size: 30,
-                        color: Colors.white,
-                      )),
-                ),
-                Expanded(
-                  child: Container(
+            Container(
+              width: MediaQuery.of(context).size.width / 5,
+              height: 80.0,
+              color: AppColor.primaryColor,
+              padding: const EdgeInsets.only(top: 8.0),
+              alignment: Alignment.topLeft,
+              child: TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Icon(
+                    Icons.arrow_back,
+                    size: 30,
+                    color: Colors.white,
+                  )),
+            ),
+            Expanded(
+              child: Column(
+                children: [
+                  // Next Button Container
+                  Container(
                     alignment: Alignment.bottomRight,
+                    color: Colors.white,
                     height: 80.0,
                     padding: const EdgeInsets.only(right: 23.0, top: 8.0),
                     child: ElevatedButton(
@@ -65,90 +71,39 @@ class _PlanetCareScreenState extends State<PlanetCareScreen> {
                       child: const Text('Next'),
                     ),
                   ),
-                )
-              ],
-            ),
-            Expanded(
-                child: ListView.builder(
-                    itemCount: 4,
-                    itemBuilder: ((context, index) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(color: Colors.transparent),
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              flex: 3,
-                              child: Stack(
-                                children: [
-                                  ConstrainedBox(
-                                    constraints: const BoxConstraints(
-                                      maxHeight: 300,
-
-                                    ),
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        color: AppColor.primaryColor,
-                                        border:
-                                            Border.all(color: AppColor.primaryColor),
-                                      ),
-                                      child: RotatedBox(
-                                        quarterTurns: 3,
-                                        child: Text(
-                                          taskList[index],
-                                          style: const TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w400),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-
-                                  // Semi-Circle Container
-                                  Positioned(
-                                    right: -24,
-                                    child: Container(
-                                        height: 56.0,
-                                        width: 56 / 2,
-                                        decoration: BoxDecoration(
-                                          color: AppColor.primaryColor,
-                                          border:
-                                              Border.all(color: AppColor.primaryColor),
-                                          borderRadius: const BorderRadius.only(
-                                            topRight: Radius.circular(100),
-                                            bottomRight: Radius.circular(100),
-                                          ),
-                                        )),
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                            Expanded(
-                              flex: 7,
+                  Expanded(
+                      child: BlocConsumer<CheckboxBloc, CheckboxState>(
+                    listener: (_, state) {},
+                    builder: (context, state) {
+                      taskCheckbox = state is CheckboxClickState
+                          ? state.taskCheckList
+                          : taskCheckbox;
+                      return ListView.builder(
+                          itemCount: taskList.length,
+                          itemBuilder: ((context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 18, vertical: 9),
                               child: Container(
-                                padding: const EdgeInsets.only(
-                                    right: 16.0, left: 16, top: 24.0, bottom: 24),
-                                color: Colors.white,
-                                child: Container(
-                                  padding: const EdgeInsets.all(8.0),
-                                  decoration: const BoxDecoration(
-                                      color: Color(0xffE2DCF8),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10))),
-                                  child: Column(
-                                    children: [
-                                      Row(
+                                padding: const EdgeInsets.all(8.0),
+                                decoration: const BoxDecoration(
+                                    color: Color(0xffE2DCF8),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Checkbox(
+                                        value: taskCheckbox[index],
+                                        onChanged: ((value) {})),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Checkbox(
-                                              value: false,
-                                              onChanged: ((value) {})),
+                                          const SizedBox(
+                                            height: 15.0,
+                                          ),
                                           Text(
                                             taskList[index],
                                             style: const TextStyle(
@@ -156,65 +111,38 @@ class _PlanetCareScreenState extends State<PlanetCareScreen> {
                                                 color: AppColor.textColor,
                                                 fontWeight: FontWeight.w600),
                                           ),
+                                          const SizedBox(
+                                            height: 8.0,
+                                          ),
+                                          Text(
+                                            taskDescription[index],
+                                            style: const TextStyle(
+                                                fontSize: 12,
+                                                color: AppColor.textColor,
+                                                fontWeight: FontWeight.w400),
+                                            overflow: TextOverflow.visible,
+                                          ),
+                                          Container(
+                                            alignment: Alignment.centerRight,
+                                            child: Image.asset(
+                                                'assets/images/planet_care_task${index + 1}.png'),
+                                          )
                                         ],
                                       ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 48.0),
-                                        child: Text(
-                                          taskDescription[index],
-                                          style: const TextStyle(
-                                              fontSize: 12,
-                                              color: AppColor.textColor,
-                                              fontWeight: FontWeight.w400),
-                                          overflow: TextOverflow.visible,
-                                        ),
-                                      ),
-                                      Container(
-                                        alignment: Alignment.centerRight,
-                                        child: Image.asset(
-                                            'assets/images/planet_care_task${index + 1}.png'),
-                                      )
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            )
-                          ],
-                        ),
-                      );
-                    })))
+                            );
+                          }));
+                    },
+                  )),
+                ],
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 }
-
-class CustomHalfCircleClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    final Path path = Path();
-    path.lineTo(0.0, size.height / 2);
-    path.lineTo(size.width, size.height / 2);
-    path.lineTo(size.width, 0);
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) {
-    return true;
-  }
-}
-   // ClipPath(
-              //   clipper: CustomHalfCircleClipper(),
-              //   child: Container(
-              //     height: 55.0,
-              //     width: 55.0,
-              //     // color: AppColor.primaryColor,
-              //     decoration: BoxDecoration(
-              //         color: AppColor.primaryColor,
-              //         borderRadius: BorderRadius.circular(150.0)),
-              //   ),
-              // ),

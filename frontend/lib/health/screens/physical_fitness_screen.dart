@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:value_app/health/bloc/timer_bloc.dart';
+import 'package:value_app/health/bloc/timer_bloc/timer_bloc.dart';
 import 'package:value_app/health/screens/timer_screen.dart';
 import 'package:value_app/res/color.dart';
 

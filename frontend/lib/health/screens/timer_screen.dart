@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:value_app/health/bloc/timer_bloc.dart';
+import 'package:value_app/health/bloc/timer_bloc/timer_bloc.dart';
 import 'package:value_app/res/color.dart';
 
 class TimerScreen extends StatefulWidget {
@@ -22,7 +22,6 @@ class _TimerScreenState extends State<TimerScreen> {
   var oneSec = const Duration(seconds: 1);
 
   void startTimer() {
-    print('timer started');
     timer = Timer.periodic(
       oneSec,
       (Timer timer) {
@@ -33,7 +32,7 @@ class _TimerScreenState extends State<TimerScreen> {
         } else {
           if (mounted) {
             start--;
-            print(start);
+            
             context
                 .read<TimerBloc>()
                 .add(TimerInitializeEvent(startTimer: start));

@@ -17,7 +17,7 @@ class AuthenticationBloc
         _mapLoginWithPhoneNumberAndPasswordEvent);
     on<CreateAccountEvent>(_mapCreateAccountEvent);
     on<ChangePasswordVisibilityEvent>(_mapChangePasswordVisibilityEvent);
-    on<RememberMeEvent>(_mapRememberEvent);
+   
     on<APITestEvent>(apiTest);
   }
 
@@ -37,6 +37,7 @@ class AuthenticationBloc
       });
 
       final jsonResponse = jsonDecode(res.body);
+      log("$jsonResponse");
       UserModel userModel = UserModel.fromJson(jsonResponse);
 
       if (userModel.success!) {
@@ -130,8 +131,4 @@ class AuthenticationBloc
     emit(ChangePasswordVisibilityState());
   }
 
-  Future<void> _mapRememberEvent(
-      RememberMeEvent event, Emitter<AuthenticationState> emit) async {
-    emit(RememberMeState());
-  }
 }

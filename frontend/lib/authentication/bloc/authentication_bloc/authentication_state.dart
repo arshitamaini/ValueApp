@@ -27,9 +27,6 @@ class LoadingState extends AuthenticationState {
 class ChangePasswordVisibilityState extends AuthenticationState {
   ChangePasswordVisibilityState();
 }
-class RememberMeState extends AuthenticationState{
-  RememberMeState();
-}
 
 class APITestState extends AuthenticationState {
   APITestState();

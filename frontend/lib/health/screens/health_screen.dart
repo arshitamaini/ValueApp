@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:value_app/health/bloc/sleep_bloc/sleep_bloc.dart';
+import 'package:value_app/health/bloc/steps_bloc/steps_bloc.dart';
 import 'package:value_app/health/screens/mental_fitness_screen.dart';
 import 'package:value_app/health/screens/physical_fitness_screen.dart';
 import 'package:value_app/health/screens/sleep_screen.dart';
@@ -190,7 +193,10 @@ class _HealthScreenState extends State<HealthScreen> {
                             onTap: () => Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const SleepScreen())),
+                                    builder: (context) => BlocProvider(
+                                          create: (context) => SleepBloc(),
+                                          child: const SleepScreen(),
+                                        ))),
                             child: Container(
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15.0),
@@ -254,7 +260,10 @@ class _HealthScreenState extends State<HealthScreen> {
                             onTap: () => Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const StepsScreen())),
+                                    builder: (context) => BlocProvider(
+                                          create: (context) => StepsBloc(),
+                                          child: const StepsScreen(),
+                                        ))),
                             child: Container(
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15.0),

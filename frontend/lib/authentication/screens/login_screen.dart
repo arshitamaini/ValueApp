@@ -160,51 +160,24 @@ class _LoginScreenState extends State<LoginScreen> {
                             )),
                       ),
                       // Forget/Remember button
-                      SizedBox(
+                      Container(
                         width: MediaQuery.of(context).size.width / 1.3,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Checkbox(
-                                    value: rememberMe,
-                                    activeColor: const Color(0xff30D01F),
-                                    onChanged: ((value) {
-                                      context
-                                          .read<AuthenticationBloc>()
-                                          .add(RememberMeEvent());
-                                      if (state is RememberMeState) {
-                                        rememberMe = value;
-                                      }
-                                    })),
-                                const Text(
-                                  'Remember me',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12.0,
-                                      color: Color(0xffCAC9CC)),
-                                ),
-                              ],
-                            ),
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const ResetPasswordScreen()));
-                                },
-                                child: const Text(
-                                  'Forget Password?',
-                                  style: TextStyle(
-                                      color: Color(0xff5C4AA6),
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 12.0),
-                                ))
-                          ],
-                        ),
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ResetPasswordScreen()));
+                            },
+                            child: const Text(
+                              'Forget Password?',
+                              style: TextStyle(
+                                  color: Color(0xff5C4AA6),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 12.0),
+                            )),
                       ),
                       const SizedBox(
                         height: 35.0,
@@ -224,23 +197,16 @@ class _LoginScreenState extends State<LoginScreen> {
                             //   ),
                             // );
 
-                            if (_passwordController.text == '' ||
-                                _emailPhoneNumberController.text == '') {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(const SnackBar(
-                                content: Text('Please Enter Complete Details'),
-                              ));
-                              if (formKey.currentState!.validate()) {
-                                context.read<AuthenticationBloc>().add(
-                                      LoginWithPhoneNumberAndPasswordEvent(
-                                        emailPhoneNumber:
-                                            _emailPhoneNumberController.text,
-                                        password: _passwordController.text,
-                                      ),
-                                    );
-                              } else {
-                                log('not ok');
-                              }
+                            if (formKey.currentState!.validate()) {
+                              context.read<AuthenticationBloc>().add(
+                                    LoginWithPhoneNumberAndPasswordEvent(
+                                      emailPhoneNumber:
+                                          _emailPhoneNumberController.text,
+                                      password: _passwordController.text,
+                                    ),
+                                  );
+                            } else {
+                              log('not ok');
                             }
                           }),
                           style: AppStyle.elevatedButtonStyle,
@@ -256,7 +222,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: MediaQuery.of(context).size.width / 1.3,
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children:  [
+                          children: [
                             Expanded(
                               child: Divider(
                                   height: 50.0,

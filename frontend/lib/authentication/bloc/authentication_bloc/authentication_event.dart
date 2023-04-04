@@ -34,6 +34,3 @@ class ChangePasswordVisibilityEvent extends AuthenticationEvent {
   ChangePasswordVisibilityEvent();
 }
 
-class RememberMeEvent extends AuthenticationEvent {
-  RememberMeEvent();
-}

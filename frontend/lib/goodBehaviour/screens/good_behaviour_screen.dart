@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:value_app/goodBehaviour/bloc/checkboxBloc/checkbox_bloc.dart';
+import 'package:value_app/checkbox_bloc/checkbox_bloc.dart';
 import 'package:value_app/res/color.dart';
 
 class GoodBehaviourScreen extends StatefulWidget {
@@ -17,12 +17,7 @@ class _GoodBehaviourScreenState extends State<GoodBehaviourScreen> {
     'Find ways to donate',
     'Plant a vegetable garden'
   ];
-  List taskMap = [
-    {'task': 'A', 'isChecked': false},
-    {'task': 'B', 'isChecked': false},
-    {'task': 'C', 'isChecked': false},
-    {'task': 'D', 'isChecked': false},
-  ];
+ 
   List<bool> taskCheckbox = [false, false, false, false];
   @override
   Widget build(BuildContext context) {
@@ -79,61 +74,70 @@ class _GoodBehaviourScreenState extends State<GoodBehaviourScreen> {
                       Expanded(
                         child: BlocBuilder<CheckboxBloc, CheckboxState>(
                           builder: (context, state) {
-                              taskCheckbox = state is CheckboxClickState ? state.taskCheckList : taskCheckbox;
-                              return  ListView.builder(
-                                  itemCount: 4,
-                                  itemBuilder: (context, index) {
-                                    return Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 31.0, right: 31.0, top: 29.0),
-                                      child: SizedBox(
-                                        height: 131.0,
-                                        child: Card(
-                                          elevation: 4,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(20.0),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Row(
-                                              children: [
-                                                Checkbox(
-                                                    activeColor:
-                                                    AppColor.primaryColor,
-                                                    value: taskCheckbox[index],
-                                                    onChanged: ((value) {
-                                                      context
-                                                          .read<CheckboxBloc>()
-                                                          .add(CheckboxClickEvent(taskCheckList: taskCheckbox, index: index));
-                                                    })),
-                                                const SizedBox(
-                                                  width: 9.0,
+                            taskCheckbox = state is CheckboxClickState
+                                ? state.taskCheckList
+                                : taskCheckbox;
+                            return ListView.builder(
+                                itemCount: 4,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 31.0, right: 31.0, top: 29.0),
+                                    child: SizedBox(
+                                      height: 131.0,
+                                      child: Card(
+                                        elevation: 4,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20.0),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            children: [
+                                              Checkbox(
+                                                  activeColor:
+                                                      AppColor.primaryColor,
+                                                  value: taskCheckbox[index],
+                                                  onChanged: ((value) {
+                                                    context
+                                                        .read<CheckboxBloc>()
+                                                        .add(CheckboxClickEvent(
+                                                            taskCheckList:
+                                                                taskCheckbox,
+                                                            index: index));
+                                                  })),
+                                              const SizedBox(
+                                                width: 9.0,
+                                              ),
+                                              Image(
+                                                  image: AssetImage(
+                                                      'assets/images/good_behaviour_task${index + 1}.png')),
+                                              const SizedBox(
+                                                width: 9.0,
+                                              ),
+                                              Expanded(
+                                                child: Text(
+                                                  taskList[index],
+                                                  overflow:
+                                                      TextOverflow.visible,
+                                                  style: const TextStyle(
+                                                      color:
+                                                          AppColor.primaryColor,
+                                                      fontSize: 14.0,
+                                                      fontWeight:
+                                                          FontWeight.w600),
                                                 ),
-                                                Image(
-                                                    image: AssetImage(
-                                                        'assets/images/good_behaviour_task${index + 1}.png')),
-                                                const SizedBox(
-                                                  width: 9.0,
-                                                ),
-                                                Expanded(
-                                                  child: Text(
-                                                    taskList[index],
-                                                    overflow: TextOverflow.visible,
-                                                    style: const TextStyle(
-                                                        color: AppColor.primaryColor,
-                                                        fontSize: 14.0,
-                                                        fontWeight: FontWeight.w600),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
+                                              )
+                                            ],
                                           ),
                                         ),
                                       ),
-                                    );
-                                  });
-                            },
-                          ),
+                                    ),
+                                  );
+                                });
+                          },
+                        ),
                       ),
                       Container(
                         padding: const EdgeInsets.only(
@@ -153,9 +157,9 @@ class _GoodBehaviourScreenState extends State<GoodBehaviourScreen> {
                                     side: BorderSide(
                                         color: AppColor.primaryColor,
                                         width: 0.5))),
-                            child: Row(
+                            child: const Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: const[
+                              children: [
                                 Icon(
                                   Icons.add,
                                   color: AppColor.primaryColor,

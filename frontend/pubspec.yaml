@@ -47,6 +47,8 @@ dependencies:
   intl: ^0.18.0
   percent_indicator: ^4.2.3
   flutter_rating_bar: ^4.0.1
+  syncfusion_flutter_charts: ^21.1.37
+
 
 
 dev_dependencies:
