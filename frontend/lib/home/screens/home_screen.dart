@@ -12,6 +12,7 @@ import 'package:value_app/home/screens/rewards_screen.dart';
 import 'package:value_app/home/screens/side_menu.dart';
 import 'package:value_app/nitnem/bloc/fetch_task_bloc/fetch_nitnem_task_bloc.dart';
 import 'package:value_app/nitnem/screens/nitenam_screen.dart';
+import 'package:value_app/planetCare/bloc/fetch_task_bloc/fetch_task_bloc.dart';
 import 'package:value_app/planetCare/screens/planet_care_screen.dart';
 import 'package:value_app/res/color.dart';
 import 'package:value_app/sewa/bloc/fetch_task_bloc/fetch_task_bloc.dart';
@@ -227,8 +228,17 @@ class _HomeScreenState extends State<HomeScreen>
                               onPress: () => Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: ((context) => BlocProvider(
-                                            create: (context) => CheckboxBloc(),
+                                      builder: ((context) => MultiBlocProvider(
+                                            providers: [
+                                              BlocProvider(
+                                                create: (context) =>
+                                                    CheckboxBloc(),
+                                              ),
+                                              BlocProvider(
+                                                create: (context) =>
+                                                    FetchPlanetCareTaskBloc(),
+                                              ),
+                                            ],
                                             child: const PlanetCareScreen(),
                                           )))),
                             ),

@@ -19,7 +19,7 @@ class FetchNitnemTaskBloc
       var res = await http.post(url);
 
       final jsonResponse = jsonDecode(res.body);
-      NitnemModel nitnemModel = NitnemModel.fromJson(jsonResponse);
+      NitnemTaskModel nitnemModel = NitnemTaskModel.fromJson(jsonResponse);
 
       if (nitnemModel.success!) {
         emit(SuccessState(nitnemModel: nitnemModel));

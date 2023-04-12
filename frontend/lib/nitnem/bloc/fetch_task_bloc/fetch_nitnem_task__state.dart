@@ -10,7 +10,7 @@ class LoadingState extends FetchNitnemTaskState {
 
 class SuccessState extends FetchNitnemTaskState {
   SuccessState({required this.nitnemModel});
-  NitnemModel nitnemModel;
+  NitnemTaskModel nitnemModel;
 }
 
 class ErrorState extends FetchNitnemTaskState {

@@ -319,7 +319,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     .showSnackBar(const SnackBar(
                                   content: Text(
                                       'Password and confirm password does not match'),
-                                ));
+                                ))
+                                ;
                               } else {
                                 print('not ok');
                               }

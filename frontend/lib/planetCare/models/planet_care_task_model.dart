@@ -1,11 +1,11 @@
-class NitnemTaskModel {
+class PlanetCareTaskModel {
   bool? success;
   String? message;
   int? code;
   int? count;
   List<Info>? info;
 
-  NitnemTaskModel({
+  PlanetCareTaskModel({
     this.success,
     this.message,
     this.code,
@@ -13,7 +13,7 @@ class NitnemTaskModel {
     this.info,
   });
 
-  NitnemTaskModel.fromJson(Map<String, dynamic> json) {
+  PlanetCareTaskModel.fromJson(Map<String, dynamic> json) {
     success = json['success'] as bool?;
     message = json['message'] as String?;
     code = json['code'] as int?;
@@ -34,34 +34,30 @@ class NitnemTaskModel {
 
 class Info {
   String? id;
-  String? name;
-  String? gurmukhiContent;
-  String? hindiContent;
-  String? englishContent;
+  String? taskTitle;
+  String? taskDescription;
+  String? userId;
 
   Info({
     this.id,
-    this.name,
-    this.gurmukhiContent,
-    this.hindiContent,
-    this.englishContent,
+    this.taskTitle,
+    this.taskDescription,
+    this.userId,
   });
 
   Info.fromJson(Map<String, dynamic> json) {
     id = json['_id'] as String?;
-    name = json['name'] as String?;
-    gurmukhiContent = json['gurmukhiContent'] as String?;
-    hindiContent = json['hindiContent'] as String?;
-    englishContent = json['englishContent'] as String?;
+    taskTitle = json['taskTitle'] as String?;
+    taskDescription = json['taskDescription'] as String?;
+    userId = json['userId'] as String?;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> json = <String, dynamic>{};
     json['_id'] = id;
-    json['name'] = name;
-    json['gurmukhiContent'] = gurmukhiContent;
-    json['hindiContent'] = hindiContent;
-    json['englishContent'] = englishContent;
+    json['taskTitle'] = taskTitle;
+    json['taskDescription'] = taskDescription;
+    json['userId'] = userId;
     return json;
   }
 }

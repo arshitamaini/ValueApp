@@ -5,5 +5,7 @@ abstract class PathState {}
 class PathInitial extends PathState {}
 
 class LanguageChangeState extends PathState {
-  LanguageChangeState();
+  String content;
+   String language;
+  LanguageChangeState({required this.content, required this.language});
 }

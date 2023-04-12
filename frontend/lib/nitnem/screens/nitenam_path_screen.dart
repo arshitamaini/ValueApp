@@ -4,19 +4,29 @@ import 'package:value_app/nitnem/bloc/path_bloc/bloc/path_bloc.dart';
 import 'package:value_app/res/color.dart';
 
 class NitenamPathScreen extends StatefulWidget {
-  const NitenamPathScreen({super.key});
+  final String gurmukhiContent;
+  final String englishContent;
+  final String hindiContent;
+  const NitenamPathScreen(
+      {super.key,
+      required this.englishContent,
+      required this.gurmukhiContent,
+      required this.hindiContent});
 
   @override
   State<NitenamPathScreen> createState() => _NitenamPathScreenState();
 }
 
 class _NitenamPathScreenState extends State<NitenamPathScreen> {
-  String selectedLanguage = 'english';
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<PathBloc, PathState>(
-      listener: (context, state) {},
+    return BlocBuilder<PathBloc, PathState>(
       builder: (context, state) {
+        String selectedLanguage =
+            state is LanguageChangeState ? state.language : 'gurmukhi';
+        String content = state is LanguageChangeState
+            ? state.content
+            : widget.gurmukhiContent;
         return Scaffold(
           backgroundColor: Colors.white,
           body: SafeArea(
@@ -40,17 +50,20 @@ class _NitenamPathScreenState extends State<NitenamPathScreen> {
                       width: 105.0,
                       child: ElevatedButton(
                           onPressed: () {
-                            context.read<PathBloc>().add(LanguageChangeEvent());
-                            selectedLanguage = 'gurmukhi';
+                            context.read<PathBloc>().add(LanguageChangeEvent(
+                                language: 'gurmukhi',
+                                content: widget.gurmukhiContent));
                           },
                           style: ElevatedButton.styleFrom(
                             elevation: 0.0,
                             foregroundColor: selectedLanguage == 'gurmukhi' &&
-                                    state is LanguageChangeState
+                                        state is LanguageChangeState ||
+                                    state is PathInitial
                                 ? Colors.white
                                 : AppColor.primaryColor,
                             backgroundColor: selectedLanguage == 'gurmukhi' &&
-                                    state is LanguageChangeState
+                                        state is LanguageChangeState ||
+                                    state is PathInitial
                                 ? AppColor.primaryColor
                                 : Colors.white,
                             textStyle: const TextStyle(
@@ -72,8 +85,9 @@ class _NitenamPathScreenState extends State<NitenamPathScreen> {
                       width: 105.0,
                       child: ElevatedButton(
                           onPressed: () {
-                            context.read<PathBloc>().add(LanguageChangeEvent());
-                            selectedLanguage = 'hindi';
+                            context.read<PathBloc>().add(LanguageChangeEvent(
+                                content: widget.hindiContent,
+                                language: 'hindi'));
                           },
                           style: ElevatedButton.styleFrom(
                             elevation: 0.0,
@@ -104,19 +118,18 @@ class _NitenamPathScreenState extends State<NitenamPathScreen> {
                       width: 105.0,
                       child: ElevatedButton(
                           onPressed: () {
-                            context.read<PathBloc>().add(LanguageChangeEvent());
-                            selectedLanguage = 'english';
+                            context.read<PathBloc>().add(LanguageChangeEvent(
+                                content: widget.englishContent,
+                                language: 'english'));
                           },
                           style: ElevatedButton.styleFrom(
                             elevation: 0.0,
                             foregroundColor: selectedLanguage == 'english' &&
-                                        state is LanguageChangeState ||
-                                    state is PathInitial
+                                    state is LanguageChangeState
                                 ? Colors.white
                                 : AppColor.primaryColor,
                             backgroundColor: selectedLanguage == 'english' &&
-                                        state is LanguageChangeState ||
-                                    state is PathInitial
+                                    state is LanguageChangeState
                                 ? AppColor.primaryColor
                                 : Colors.white,
                             textStyle: const TextStyle(
@@ -131,7 +144,31 @@ class _NitenamPathScreenState extends State<NitenamPathScreen> {
                           child: const Text('English')),
                     ),
                   ],
-                )
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Expanded(
+                    child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 20),
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        content,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                            color: AppColor.textColor),
+                      ),
+                    ),
+                  ),
+                )),
+                const SizedBox(
+                  height: 20,
+                ),
               ],
             ),
           ),

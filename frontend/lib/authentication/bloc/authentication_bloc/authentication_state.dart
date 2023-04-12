@@ -14,9 +14,6 @@ class SuccessState extends AuthenticationState {
       required this.emailPhoneNumber});
 }
 
-class SuccessPasswordChangeState extends AuthenticationState {
-  SuccessPasswordChangeState();
-}
 
 class ErrorState extends AuthenticationState {
   final String message;

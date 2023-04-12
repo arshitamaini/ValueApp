@@ -16,7 +16,7 @@ class AuthenticationBloc
     on<LoginWithPhoneNumberAndPasswordEvent>(
         _mapLoginWithPhoneNumberAndPasswordEvent);
     on<CreateAccountEvent>(_mapCreateAccountEvent);
-    on<ChangePasswordEvent>(_mapChangePasswordEvent);
+    
   }
 
   Future<void> _mapLoginWithPhoneNumberAndPasswordEvent(
@@ -102,21 +102,4 @@ class AuthenticationBloc
     }
   }
 
-  Future _mapChangePasswordEvent(
-      ChangePasswordEvent event, Emitter<AuthenticationState> emit) async {
-    emit(LoadingState());
-    try {
-      var url = Uri.parse('$baseUrl/changePassword');
-      var res = await http.post(url, headers: <String, String>{
-        'Context-Type': 'application/json;charSet=UTF-8'
-      }, body: <String, String>{
-        'emailPhoneNumber': event.emailPhoneNumber,
-      });
-
-      final jsonResponse = jsonDecode(res.body);
-      log(jsonResponse);
-    } catch (e) {
-      emit(ErrorState(message: 'Please Try Again Later !!'));
-    }
-  }
 }

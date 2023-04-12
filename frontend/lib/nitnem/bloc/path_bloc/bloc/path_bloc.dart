@@ -9,6 +9,6 @@ class PathBloc extends Bloc<PathEvent, PathState> {
   }
   Future _mapChangeLanguageEvent(
       LanguageChangeEvent event, Emitter<PathState> emit) async {
-    emit(LanguageChangeState());
+    emit(LanguageChangeState(content: event.content, language: event.language));
   }
 }

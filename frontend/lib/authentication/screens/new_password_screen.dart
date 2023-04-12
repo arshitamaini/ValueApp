@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:value_app/authentication/bloc/authentication_bloc/authentication_bloc.dart';
+import 'package:value_app/authentication/bloc/change_password_bloc/change_password_bloc.dart';
 import 'package:value_app/authentication/screens/login_screen.dart';
 import 'package:value_app/password_visibility_bloc/password_visibility_bloc.dart';
 import 'package:value_app/res/color.dart';
@@ -24,6 +25,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: Container(
           decoration: const BoxDecoration(
               image: DecorationImage(
@@ -37,34 +39,41 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                   topRight: Radius.circular(15.0),
                   topLeft: Radius.circular(15.0),
                 )),
-            child: BlocConsumer<AuthenticationBloc, AuthenticationState>(
+            child: BlocConsumer<ChangePasswordBloc, ChangePasswordState>(
               listener: (context, state) {
-                if (state is LoadingState) {
-                  const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                if (state is ErrorState) {
-                  Center(
-                    child: Text(state.message,
-                        style: const TextStyle(
-                            color: AppColor.textColor,
-                            fontSize: 14,
-                            overflow: TextOverflow.visible)),
-                  );
-                }
-                if (state is SuccessPasswordChangeState) {
+                if (state is SuccessPassowrdState) {
                   Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => BlocProvider(
-                                create: (context) => AuthenticationBloc(),
+                          builder: (context) => MultiBlocProvider(
+                                providers: [
+                                  BlocProvider(
+                                    create: (context) => AuthenticationBloc(),
+                                  ),
+                                  BlocProvider(
+                                    create: (context) =>
+                                        PasswordVisibilityBloc(),
+                                  ),
+                                ],
                                 child: const LoginScreen(),
                               )),
                       ModalRoute.withName(LoginScreen.tag));
                 }
               },
               builder: (context, state) {
+                if (state is LoadingPasswordState) {
+                  const Center(
+                    child: CircularProgressIndicator(
+                      color: AppColor.primaryColor,
+                    ),
+                  );
+                }
+                if (state is ErrorPasswordState) {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text(
+                        'Something went wrong, Password cannot be changed'),
+                  ));
+                }
                 return Form(
                   key: formKey,
                   child: Column(
@@ -97,7 +106,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                         ),
                       ),
                       const SizedBox(
-                        height: 60.0,
+                        height: 40.0,
                       ),
                       Container(
                         alignment: Alignment.centerLeft,
@@ -278,11 +287,12 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                         child: ElevatedButton(
                             onPressed: () {
                               if (formKey.currentState!.validate()) {
-                                context.read<AuthenticationBloc>().add(
-                                    ChangePasswordEvent(
+                                context.read<ChangePasswordBloc>().add(
+                                    PasswordChangeEvent(
                                         emailPhoneNumber:
                                             widget.emailPhoneNumber,
-                                        newPassword: _passwordController.text));
+                                        newPassword:
+                                            _confirmPasswordController.text));
                               }
                             },
                             style: AppStyle.elevatedButtonStyle,
