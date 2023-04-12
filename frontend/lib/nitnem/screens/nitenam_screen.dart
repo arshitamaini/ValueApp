@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:value_app/nitnem/bloc/path_bloc/bloc/path_bloc.dart';
-import 'package:value_app/nitnem/bloc/task_bloc/nitnem_bloc.dart';
+import 'package:value_app/nitnem/bloc/fetch_task_bloc/fetch_nitnem_task_bloc.dart';
 import 'package:value_app/nitnem/screens/nitenam_path_screen.dart';
 import 'package:value_app/res/color.dart';
 import 'package:intl/intl.dart';
@@ -34,7 +34,7 @@ class _NitenamScreenState extends State<NitenamScreen> {
 
   @override
   void initState() {
-    context.read<NitnemBloc>().add(FetchNitnemTask());
+    context.read<FetchNitnemTaskBloc>().add(FetchTask());
     super.initState();
   }
 
@@ -43,7 +43,7 @@ class _NitenamScreenState extends State<NitenamScreen> {
     return Scaffold(
       backgroundColor: AppColor.primaryColor,
       body: SafeArea(
-        child: BlocConsumer<NitnemBloc, NitnemState>(
+        child: BlocConsumer<FetchNitnemTaskBloc, FetchNitnemTaskState>(
           listener: (context, state) {
             if (state is ErrorState) {
               const Text('Error Occur');

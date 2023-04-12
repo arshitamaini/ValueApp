@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:value_app/authentication/bloc/authentication_bloc/authentication_bloc.dart';
 import 'package:value_app/authentication/screens/login_screen.dart';
 import 'package:value_app/home/screens/home_screen.dart';
+import 'package:value_app/password_visibility_bloc/password_visibility_bloc.dart';
 import 'package:value_app/res/color.dart';
 import 'package:value_app/res/style.dart';
 
@@ -174,49 +175,56 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               )),
                         ),
                         // Password TextField
-                        SizedBox(
-                          // height: 45,
-                          width: MediaQuery.of(context).size.width / 1.3,
-                          child: TextFormField(
-                              textInputAction: TextInputAction.done,
-                              controller: _passwordController,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Enter your password';
-                                }
-                                return null;
-                              },
-                              obscureText: isPasswordVisible,
-                              decoration: InputDecoration(
-                                suffixIcon: TextButton(
-                                  style: TextButton.styleFrom(
-                                    foregroundColor: const Color(0xFFCAC9CC),
-                                  ),
-                                  child: isPasswordVisible
-                                      ? const Text('SHOW')
-                                      : const Text('HIDE'),
-                                  onPressed: () {
-                                    context
-                                        .read<AuthenticationBloc>()
-                                        .add(ChangePasswordVisibilityEvent());
-                                    if (state
-                                        is ChangePasswordVisibilityState) {
-                                      isPasswordVisible = !isPasswordVisible;
+                        BlocBuilder<PasswordVisibilityBloc,
+                            PasswordVisibilityState>(
+                          builder: (context, passwordState) {
+                            isPasswordVisible =
+                                passwordState is ChangePasswordVisibilityState
+                                    ? passwordState.isVisible
+                                    : isPasswordVisible;
+                            return SizedBox(
+                              // height: 45,
+                              width: MediaQuery.of(context).size.width / 1.3,
+                              child: TextFormField(
+                                  textInputAction: TextInputAction.done,
+                                  controller: _passwordController,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Enter your password';
                                     }
+                                    return null;
                                   },
-                                ),
-                                hintText: 'Add Here',
-                                hintStyle: const TextStyle(
-                                  color: Color(0xFFCAC9CC),
-                                ),
-                                border: const OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(15.0)),
-                                    borderSide:
-                                        BorderSide(color: Color(0xFFC7C7C8))),
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 8.0, horizontal: 10.0),
-                              )),
+                                  obscureText: isPasswordVisible,
+                                  decoration: InputDecoration(
+                                    suffixIcon: TextButton(
+                                      style: TextButton.styleFrom(
+                                        foregroundColor:
+                                            const Color(0xFFCAC9CC),
+                                      ),
+                                      child: isPasswordVisible
+                                          ? const Text('SHOW')
+                                          : const Text('HIDE'),
+                                      onPressed: () {
+                                        context
+                                            .read<PasswordVisibilityBloc>()
+                                            .add(ChangePasswordVisibilityEvent(
+                                                isVisible: isPasswordVisible));
+                                      },
+                                    ),
+                                    hintText: 'Add Here',
+                                    hintStyle: const TextStyle(
+                                      color: Color(0xFFCAC9CC),
+                                    ),
+                                    border: const OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(15.0)),
+                                        borderSide: BorderSide(
+                                            color: Color(0xFFC7C7C8))),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 8.0, horizontal: 10.0),
+                                  )),
+                            );
+                          },
                         ),
                         const SizedBox(
                           height: 10.0,
@@ -231,50 +239,58 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               )),
                         ),
                         // Confirm Password Textfeild
-                        SizedBox(
-                          // height: 45,
-                          width: MediaQuery.of(context).size.width / 1.3,
-                          child: TextFormField(
-                              textInputAction: TextInputAction.done,
-                              controller: _confirmPasswordController,
-                              obscureText: isConfirmPasswordvisible,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Enter your confirm password';
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                suffixIcon: TextButton(
-                                  style: TextButton.styleFrom(
-                                    foregroundColor: const Color(0xFFCAC9CC),
-                                  ),
-                                  child: isConfirmPasswordvisible
-                                      ? const Text('SHOW')
-                                      : const Text('HIDE'),
-                                  onPressed: () {
-                                    context
-                                        .read<AuthenticationBloc>()
-                                        .add(ChangePasswordVisibilityEvent());
-                                    if (state
-                                        is ChangePasswordVisibilityState) {
-                                      isConfirmPasswordvisible =
-                                          !isConfirmPasswordvisible;
+                        BlocBuilder<PasswordVisibilityBloc,
+                            PasswordVisibilityState>(
+                          builder: (context, confirmPasswordState) {
+                            isConfirmPasswordvisible = confirmPasswordState
+                                    is ChangePasswordVisibilityState
+                                ? confirmPasswordState.isVisible
+                                : isConfirmPasswordvisible;
+
+                            return SizedBox(
+                              // height: 45,
+                              width: MediaQuery.of(context).size.width / 1.3,
+                              child: TextFormField(
+                                  textInputAction: TextInputAction.done,
+                                  controller: _confirmPasswordController,
+                                  obscureText: isConfirmPasswordvisible,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Enter your confirm password';
                                     }
+                                    return null;
                                   },
-                                ),
-                                hintText: 'Add Here',
-                                hintStyle: const TextStyle(
-                                  color: Color(0xFFCAC9CC),
-                                ),
-                                border: const OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(15.0)),
-                                    borderSide:
-                                        BorderSide(color: Color(0xFFC7C7C8))),
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 8.0, horizontal: 10.0),
-                              )),
+                                  decoration: InputDecoration(
+                                    suffixIcon: TextButton(
+                                      style: TextButton.styleFrom(
+                                        foregroundColor:
+                                            const Color(0xFFCAC9CC),
+                                      ),
+                                      child: isConfirmPasswordvisible
+                                          ? const Text('SHOW')
+                                          : const Text('HIDE'),
+                                      onPressed: () {
+                                        context
+                                            .read<PasswordVisibilityBloc>()
+                                            .add(ChangePasswordVisibilityEvent(
+                                                isVisible:
+                                                    isConfirmPasswordvisible));
+                                      },
+                                    ),
+                                    hintText: 'Add Here',
+                                    hintStyle: const TextStyle(
+                                      color: Color(0xFFCAC9CC),
+                                    ),
+                                    border: const OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(15.0)),
+                                        borderSide: BorderSide(
+                                            color: Color(0xFFC7C7C8))),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 8.0, horizontal: 10.0),
+                                  )),
+                            );
+                          },
                         ),
                         const SizedBox(
                           height: 20.0,
@@ -285,16 +301,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           width: MediaQuery.of(context).size.width / 1.3,
                           child: ElevatedButton(
                             onPressed: (() {
-                              // if (_firstNameController.text == '' ||
-                              //     _lastNameController.text == '' ||
-                              //     _passwordController.text == '' ||
-                              //     _emailPhoneNumberController.text == '') {
-                              //   ScaffoldMessenger.of(context)
-                              //       .showSnackBar(const SnackBar(
-                              //     content:
-                              //         Text('Please Enter Complete Details'),
-                              //   ));
-                              // }
                               if (formKey.currentState!.validate() &&
                                   _passwordController.text ==
                                       _confirmPasswordController.text) {
@@ -329,9 +335,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width / 1.3,
-                          child: Row(
+                          child: const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
+                            children: [
                               Expanded(
                                 child: Divider(
                                     height: 40.0,
@@ -375,9 +381,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.w500),
                             ),
-                            child: Row(
+                            child: const Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
+                              children:  [
                                 CircleAvatar(
                                   radius: 13.0,
                                   backgroundColor: Colors.transparent,
@@ -412,9 +418,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: ((context) => BlocProvider(
-                                                create: (context) =>
-                                                    AuthenticationBloc(),
+                                          builder: ((context) =>
+                                              MultiBlocProvider(
+                                                providers: [
+                                                  BlocProvider(
+                                                    create: (context) =>
+                                                        AuthenticationBloc(),
+                                                  ),
+                                                  BlocProvider(
+                                                    create: (context) =>
+                                                        PasswordVisibilityBloc(),
+                                                  ),
+                                                ],
                                                 child: const LoginScreen(),
                                               ))));
                                 },

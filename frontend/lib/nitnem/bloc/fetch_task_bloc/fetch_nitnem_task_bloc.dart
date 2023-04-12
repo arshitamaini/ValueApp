@@ -2,16 +2,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:value_app/nitnem/models/nitnem_model.dart';
-part 'nitnem_state.dart';
-part 'nitnem_event.dart';
+part 'fetch_nitnem_task__state.dart';
+part 'fetch_nitnem_task_event.dart';
 
-class NitnemBloc extends Bloc<NitenamEvent, NitnemState> {
-  NitnemBloc() : super(NitnemInitial()) {
-    on<FetchNitnemTask>(_mapFetchNitnemTask);
+class FetchNitnemTaskBloc
+    extends Bloc<FecthNitenamTaskEvent, FetchNitnemTaskState> {
+  FetchNitnemTaskBloc() : super(NitnemInitial()) {
+    on<FetchTask>(_mapFetchNitnemTask);
   }
 
   Future _mapFetchNitnemTask(
-      FetchNitnemTask event, Emitter<NitnemState> emit) async {
+      FetchTask event, Emitter<FetchNitnemTaskState> emit) async {
     emit(LoadingState());
     try {
       var url = Uri.parse("http://10.0.2.2:8080/valueApp/fetchNitnemTask");

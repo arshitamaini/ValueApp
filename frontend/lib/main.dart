@@ -12,7 +12,6 @@ class MyApp extends StatelessWidget {
   final routes = <String, WidgetBuilder>{
     LoginScreen.tag: (context) => const LoginScreen(),
   };
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

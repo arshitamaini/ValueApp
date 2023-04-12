@@ -3,15 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:value_app/checkbox_bloc/checkbox_bloc.dart';
 import 'package:value_app/goodBehaviour/screens/good_behaviour_screen.dart';
+import 'package:value_app/happiness/bloc/fetch_task_bloc/fetch_happiness_task_bloc.dart';
 import 'package:value_app/happiness/screens/happiness_screen.dart';
 import 'package:value_app/health/screens/health_screen.dart';
 import 'package:value_app/home/screens/instruction_screen.dart';
 import 'package:value_app/home/screens/rewards_screen.dart';
 import 'package:value_app/home/screens/side_menu.dart';
-import 'package:value_app/nitnem/bloc/task_bloc/nitnem_bloc.dart';
+import 'package:value_app/nitnem/bloc/fetch_task_bloc/fetch_nitnem_task_bloc.dart';
 import 'package:value_app/nitnem/screens/nitenam_screen.dart';
 import 'package:value_app/planetCare/screens/planet_care_screen.dart';
 import 'package:value_app/res/color.dart';
+import 'package:value_app/sewa/bloc/fetch_task_bloc/fetch_task_bloc.dart';
 import 'package:value_app/sewa/screens/sewa_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -126,7 +128,8 @@ class _HomeScreenState extends State<HomeScreen>
                                   context,
                                   MaterialPageRoute(
                                       builder: ((context) => BlocProvider(
-                                            create: ((context) => NitnemBloc()),
+                                            create: ((context) =>
+                                                FetchNitnemTaskBloc()),
                                             child: const NitenamScreen(),
                                           )))),
                             ),
@@ -141,8 +144,11 @@ class _HomeScreenState extends State<HomeScreen>
                                 onPress: () => Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: ((context) =>
-                                            const SewaScreen())))),
+                                        builder: ((context) => BlocProvider(
+                                              create: (context) =>
+                                                  FetchSewaTaskBloc(),
+                                              child: const SewaScreen(),
+                                            ))))),
                           )
                         ],
                       ),
@@ -157,9 +163,18 @@ class _HomeScreenState extends State<HomeScreen>
                                 onPress: () => Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: ((context) => BlocProvider(
-                                              create: (context) =>
-                                                  CheckboxBloc(),
+                                        builder: ((context) =>
+                                            MultiBlocProvider(
+                                              providers: [
+                                                BlocProvider(
+                                                  create: (context) =>
+                                                      CheckboxBloc(),
+                                                ),
+                                                BlocProvider(
+                                                  create: (context) =>
+                                                      FetchHappinessTaskBloc(),
+                                                ),
+                                              ],
                                               child: const HappinessScreen(),
                                             ))))),
                           ),

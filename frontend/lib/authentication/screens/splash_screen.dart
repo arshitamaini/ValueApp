@@ -6,6 +6,7 @@ import 'dart:async';
 
 import 'package:value_app/authentication/screens/login_screen.dart';
 import 'package:value_app/home/screens/home_screen.dart';
+import 'package:value_app/password_visibility_bloc/password_visibility_bloc.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -37,8 +38,15 @@ class _SplashScreenState extends State<SplashScreen> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => firstName == null || firstName == ''
-                        ? BlocProvider(
-                            create: (context) => AuthenticationBloc(),
+                        ? MultiBlocProvider(
+                            providers: [
+                              BlocProvider(
+                                create: (context) => AuthenticationBloc(),
+                              ),
+                              BlocProvider(
+                                create: (context) => PasswordVisibilityBloc(),
+                              ),
+                            ],
                             child: const LoginScreen(),
                           )
                         : HomeScreen(

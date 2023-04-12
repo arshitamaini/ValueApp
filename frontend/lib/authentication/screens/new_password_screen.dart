@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:value_app/authentication/bloc/authentication_bloc/authentication_bloc.dart';
 import 'package:value_app/authentication/screens/login_screen.dart';
+import 'package:value_app/password_visibility_bloc/password_visibility_bloc.dart';
 import 'package:value_app/res/color.dart';
 import 'package:value_app/res/style.dart';
 
 class NewPasswordScreen extends StatefulWidget {
-  const NewPasswordScreen({super.key});
+  final String emailPhoneNumber;
+  const NewPasswordScreen({super.key, required this.emailPhoneNumber});
 
   @override
   State<NewPasswordScreen> createState() => _NewPasswordScreenState();
@@ -18,20 +20,17 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
       TextEditingController();
   bool isPasswordVisible = false;
   bool isConfirmPasswordVisible = false;
-
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage('assets/images/splashScreenBg.png'),
-                      fit: BoxFit.cover))),
-          Container(
+      body: Container(
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('assets/images/splashScreenBg.png'),
+                  fit: BoxFit.cover)),
+          child: Container(
             margin: const EdgeInsets.fromLTRB(25.0, 150.0, 25.0, 0.0),
-            alignment: Alignment.center,
             decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -66,13 +65,30 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                 }
               },
               builder: (context, state) {
-                return Padding(
-                  padding: const EdgeInsets.fromLTRB(26, 40, 27, 0),
-                  child: ListView(
-                    // mainAxisAlignment: MainAxisAlignment.start,
+                return Form(
+                  key: formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const SizedBox(
-                        height: 60.0,
+                      Container(
+                        alignment: Alignment.topLeft,
+                        child: TextButton(
+                            onPressed: () {
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => BlocProvider(
+                                            create: (context) =>
+                                                AuthenticationBloc(),
+                                            child: const LoginScreen(),
+                                          )),
+                                  ModalRoute.withName(LoginScreen.tag));
+                            },
+                            child: const Icon(
+                              Icons.arrow_back,
+                              size: 30,
+                              color: AppColor.textColor,
+                            )),
                       ),
                       Center(
                         child: Text(
@@ -85,7 +101,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                       ),
                       Container(
                         alignment: Alignment.centerLeft,
-                        padding: const EdgeInsets.only(left: 10, bottom: 5.0),
+                        padding: const EdgeInsets.only(left: 30, bottom: 5.0),
                         child: const Text(
                           'Password',
                           style: TextStyle(
@@ -94,68 +110,76 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                               color: AppColor.textColor),
                         ),
                       ),
-                      SizedBox(
-                        // height: 45,
-                        width: MediaQuery.of(context).size.width / 1.3,
-                        child: TextFormField(
-                            textInputAction: TextInputAction.done,
-                            controller: _passwordController,
-                            obscureText: isPasswordVisible,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Enter your password';
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              suffixIcon: TextButton(
-                                style: TextButton.styleFrom(
-                                  foregroundColor: const Color(0xFFCAC9CC),
-                                ),
-                                child: isPasswordVisible
-                                    ? const Text('SHOW')
-                                    : const Text('HIDE'),
-                                onPressed: () {
-                                  context
-                                      .read<AuthenticationBloc>()
-                                      .add(ChangePasswordVisibilityEvent());
-                                  if (state is ChangePasswordVisibilityState) {
-                                    isPasswordVisible = !isPasswordVisible;
-                                  }
-                                },
-                              ),
+                      BlocConsumer<PasswordVisibilityBloc,
+                          PasswordVisibilityState>(
+                        listener: (_, passwordState) {},
+                        builder: (context, passwordState) {
+                          isPasswordVisible =
+                              passwordState is ChangePasswordVisibilityState
+                                  ? passwordState.isVisible
+                                  : isPasswordVisible;
 
-                              hintText: 'Add Here',
-                              hintStyle: const TextStyle(
-                                color: Color(0xFFCAC9CC),
-                              ),
-                              // contentPadding: const EdgeInsets.only(left: 15.0),
-                              contentPadding: const EdgeInsets.symmetric(
-                                  vertical: 8.0, horizontal: 10.0),
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                  borderSide: const BorderSide(
-                                      color: Color(0xFFC7C7C8))),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                  borderSide: const BorderSide(
-                                      color: Color(0xFFC7C7C8))),
-                              errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                  borderSide:
-                                      const BorderSide(color: Colors.red)),
-                              focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                  borderSide:
-                                      const BorderSide(color: Colors.red)),
-                            )),
+                          return SizedBox(
+                            width: MediaQuery.of(context).size.width / 1.3,
+                            child: TextFormField(
+                                textInputAction: TextInputAction.done,
+                                controller: _passwordController,
+                                obscureText: isPasswordVisible,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Enter your password';
+                                  }
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                  suffixIcon: TextButton(
+                                    style: TextButton.styleFrom(
+                                      foregroundColor: const Color(0xFFCAC9CC),
+                                    ),
+                                    child: isPasswordVisible
+                                        ? const Text('SHOW')
+                                        : const Text('HIDE'),
+                                    onPressed: () {
+                                      context
+                                          .read<PasswordVisibilityBloc>()
+                                          .add(ChangePasswordVisibilityEvent(
+                                              isVisible: isPasswordVisible));
+                                    },
+                                  ),
+
+                                  hintText: 'Add Here',
+                                  hintStyle: const TextStyle(
+                                    color: Color(0xFFCAC9CC),
+                                  ),
+                                  // contentPadding: const EdgeInsets.only(left: 15.0),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 8.0, horizontal: 10.0),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                      borderSide: const BorderSide(
+                                          color: Color(0xFFC7C7C8))),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                      borderSide: const BorderSide(
+                                          color: Color(0xFFC7C7C8))),
+                                  errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                      borderSide:
+                                          const BorderSide(color: Colors.red)),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                      borderSide:
+                                          const BorderSide(color: Colors.red)),
+                                )),
+                          );
+                        },
                       ),
                       const SizedBox(
                         height: 22,
                       ),
                       Container(
                         alignment: Alignment.centerLeft,
-                        padding: const EdgeInsets.only(left: 10, bottom: 5.0),
+                        padding: const EdgeInsets.only(left: 30, bottom: 5.0),
                         child: const Text(
                           'Confirm Password',
                           style: TextStyle(
@@ -164,73 +188,86 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                               color: AppColor.textColor),
                         ),
                       ),
-                      SizedBox(
-                        // height: 45,
-                        width: MediaQuery.of(context).size.width / 1.3,
-                        child: TextFormField(
-                            textInputAction: TextInputAction.done,
-                            controller: _confirmPasswordController,
-                            obscureText: isConfirmPasswordVisible,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Enter confirm password';
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              suffixIcon: BlocConsumer<AuthenticationBloc,
-                                  AuthenticationState>(
-                                listener: (_, state) {},
-                                builder: (context, state) {
-                                  return TextButton(
-                                    style: TextButton.styleFrom(
-                                      foregroundColor: const Color(0xFFCAC9CC),
-                                    ),
-                                    child: isConfirmPasswordVisible
-                                        ? const Text('SHOW')
-                                        : const Text('HIDE'),
-                                    onPressed: () {
-                                      context
-                                          .read<AuthenticationBloc>()
-                                          .add(ChangePasswordVisibilityEvent());
-                                      if (state
-                                          is ChangePasswordVisibilityState) {
-                                        isConfirmPasswordVisible =
-                                            !isConfirmPasswordVisible;
-                                      }
-                                    },
-                                  );
+                      BlocConsumer<PasswordVisibilityBloc,
+                          PasswordVisibilityState>(
+                        listener: (_, confirmPasswordState) {},
+                        builder: (context, confirmPasswordState) {
+                          isConfirmPasswordVisible = confirmPasswordState
+                                  is ChangePasswordVisibilityState
+                              ? confirmPasswordState.isVisible
+                              : isConfirmPasswordVisible;
+
+                          return SizedBox(
+                            // height: 45,
+                            width: MediaQuery.of(context).size.width / 1.3,
+                            child: TextFormField(
+                                textInputAction: TextInputAction.done,
+                                controller: _confirmPasswordController,
+                                obscureText: isConfirmPasswordVisible,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Enter confirm password';
+                                  }
+                                  if (value != _passwordController.text) {
+                                    return 'Comfirm password doesn\'t match';
+                                  }
+                                  return null;
                                 },
-                              ),
-                              hintText: 'Add Here',
-                              hintStyle: const TextStyle(
-                                color: Color(0xFFCAC9CC),
-                              ),
-                              // contentPadding: const EdgeInsets.only(left: 15.0),
-                              contentPadding: const EdgeInsets.symmetric(
-                                  vertical: 8.0, horizontal: 10.0),
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                  borderSide: const BorderSide(
-                                      color: Color(0xFFC7C7C8))),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                  borderSide: const BorderSide(
-                                      color: Color(0xFFC7C7C8))),
-                              errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                  borderSide:
-                                      const BorderSide(color: Colors.red)),
-                              focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                  borderSide:
-                                      const BorderSide(color: Colors.red)),
-                              // border: const OutlineInputBorder(
-                              //     borderRadius:
-                              //         BorderRadius.all(Radius.circular(15.0)),
-                              //     borderSide:
-                              //         BorderSide(color: Color(0xFFC7C7C8))),
-                            )),
+                                decoration: InputDecoration(
+                                  suffixIcon: BlocConsumer<
+                                      PasswordVisibilityBloc,
+                                      PasswordVisibilityState>(
+                                    listener: (_, confirmPasswordState) {},
+                                    builder: (context, confirmPasswordState) {
+                                      return TextButton(
+                                        style: TextButton.styleFrom(
+                                          foregroundColor:
+                                              const Color(0xFFCAC9CC),
+                                        ),
+                                        child: isConfirmPasswordVisible
+                                            ? const Text('SHOW')
+                                            : const Text('HIDE'),
+                                        onPressed: () {
+                                          context
+                                              .read<PasswordVisibilityBloc>()
+                                              .add(ChangePasswordVisibilityEvent(
+                                                  isVisible:
+                                                      isConfirmPasswordVisible));
+                                        },
+                                      );
+                                    },
+                                  ),
+                                  hintText: 'Add Here',
+                                  hintStyle: const TextStyle(
+                                    color: Color(0xFFCAC9CC),
+                                  ),
+                                  // contentPadding: const EdgeInsets.only(left: 15.0),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 8.0, horizontal: 10.0),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                      borderSide: const BorderSide(
+                                          color: Color(0xFFC7C7C8))),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                      borderSide: const BorderSide(
+                                          color: Color(0xFFC7C7C8))),
+                                  errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                      borderSide:
+                                          const BorderSide(color: Colors.red)),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                      borderSide:
+                                          const BorderSide(color: Colors.red)),
+                                  // border: const OutlineInputBorder(
+                                  //     borderRadius:
+                                  //         BorderRadius.all(Radius.circular(15.0)),
+                                  //     borderSide:
+                                  //         BorderSide(color: Color(0xFFC7C7C8))),
+                                )),
+                          );
+                        },
                       ),
                       const SizedBox(
                         height: 30.0,
@@ -240,15 +277,13 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                         width: MediaQuery.of(context).size.width / 1.3,
                         child: ElevatedButton(
                             onPressed: () {
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => BlocProvider(
-                                            create: (context) =>
-                                                AuthenticationBloc(),
-                                            child: const LoginScreen(),
-                                          )),
-                                  ModalRoute.withName(LoginScreen.tag));
+                              if (formKey.currentState!.validate()) {
+                                context.read<AuthenticationBloc>().add(
+                                    ChangePasswordEvent(
+                                        emailPhoneNumber:
+                                            widget.emailPhoneNumber,
+                                        newPassword: _passwordController.text));
+                              }
                             },
                             style: AppStyle.elevatedButtonStyle,
                             child: const Text('Done')),
@@ -258,9 +293,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                 );
               },
             ),
-          )
-        ],
-      ),
+          )),
     );
   }
 }

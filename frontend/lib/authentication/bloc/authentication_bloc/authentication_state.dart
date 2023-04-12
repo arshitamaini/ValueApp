@@ -14,6 +14,10 @@ class SuccessState extends AuthenticationState {
       required this.emailPhoneNumber});
 }
 
+class SuccessPasswordChangeState extends AuthenticationState {
+  SuccessPasswordChangeState();
+}
+
 class ErrorState extends AuthenticationState {
   final String message;
 
@@ -22,10 +26,6 @@ class ErrorState extends AuthenticationState {
 
 class LoadingState extends AuthenticationState {
   LoadingState();
-}
-
-class ChangePasswordVisibilityState extends AuthenticationState {
-  ChangePasswordVisibilityState();
 }
 
 class APITestState extends AuthenticationState {

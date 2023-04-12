@@ -30,7 +30,9 @@ class CreateAccountEvent extends AuthenticationEvent {
   });
 }
 
-class ChangePasswordVisibilityEvent extends AuthenticationEvent {
-  ChangePasswordVisibilityEvent();
+class ChangePasswordEvent extends AuthenticationEvent {
+  final String emailPhoneNumber;
+  final String newPassword;
+  ChangePasswordEvent(
+      {required this.emailPhoneNumber, required this.newPassword});
 }
-

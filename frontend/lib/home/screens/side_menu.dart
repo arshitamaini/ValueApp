@@ -5,6 +5,7 @@ import 'package:value_app/authentication/bloc/authentication_bloc/authentication
 import 'package:value_app/authentication/screens/login_screen.dart';
 import 'package:value_app/home/screens/new_task_screen.dart';
 import 'package:value_app/home/screens/settings_screen.dart';
+import 'package:value_app/password_visibility_bloc/password_visibility_bloc.dart';
 import 'package:value_app/res/color.dart';
 import 'package:value_app/res/style.dart';
 
@@ -111,8 +112,15 @@ class _SideMenuState extends State<SideMenu> {
                   Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => BlocProvider(
-                                create: (context) => AuthenticationBloc(),
+                          builder: (context) => MultiBlocProvider(
+                                providers: [
+                                  BlocProvider(
+                                    create: (context) => AuthenticationBloc(),
+                                  ),
+                                  BlocProvider(
+                                    create: (context) => PasswordVisibilityBloc(),
+                                  ),
+                                ],
                                 child: const LoginScreen(),
                               )),
                       ModalRoute.withName(LoginScreen.tag));

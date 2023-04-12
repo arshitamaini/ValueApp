@@ -7,6 +7,7 @@ var GoodBehaviourSchema =  mongoose.Schema({
         required: true
     },
     
+    
 })
 
 var GoodBehaviourSchema = mongoose.model('goodbehaviourtask', GoodBehaviourSchema, 'goodbehaviourtask'); 

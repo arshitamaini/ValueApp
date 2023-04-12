@@ -15,9 +15,7 @@ class _NitenamPathScreenState extends State<NitenamPathScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<PathBloc, PathState>(
-      listener: (context, state) {
-        // TODO: implement listener
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
           backgroundColor: Colors.white,

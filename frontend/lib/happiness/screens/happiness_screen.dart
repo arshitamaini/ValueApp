@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:value_app/checkbox_bloc/checkbox_bloc.dart';
+import 'package:value_app/happiness/bloc/add_new_task_bloc/add_new_task_bloc.dart';
+import 'package:value_app/happiness/bloc/fetch_task_bloc/fetch_happiness_task_bloc.dart';
 import 'package:value_app/res/color.dart';
+import 'package:value_app/happiness/screens/add_new_task_screen.dart';
 
 class HappinessScreen extends StatefulWidget {
   const HappinessScreen({super.key});
@@ -11,18 +14,14 @@ class HappinessScreen extends StatefulWidget {
 }
 
 class _HappinessScreenState extends State<HappinessScreen> {
-  List taskList = [
-    'Have a toy wash',
-    'Design Home made thankyou cards',
-    'Start a scrapbook',
-  ];
-  List taskDescription = [
-    'Put your child\'s washable toys in a bin and fill two dishpans with warm water, adding soap to one. Demonstrate how to clean off the toys in the soap-water bin and rinse them in the other, then lay them out on a towel to dry. Children love water play, so this chore seems more like fun than work. Sing, "This Is the Way We Wash Our Clothes" as you work together',
-    'Put your child\'s washable toys in a bin and fill two dishpans with warm water, adding soap to one. Demonstrate how to clean off the toys in the soap-water bin and rinse them in the other, then lay them out on a towel to dry. Children love water play, so this chore seems more like fun than work. ',
-    'To help your child learn to read nonverbal cues, gather up copies of your (or his) favorite magazines and flip through them together. Instead of focusing on the words, study the people in the photos.',
-  ];
+  List<bool> taskCheckbox = [false, false, false, false, false];
 
-  List<bool> taskCheckbox = [false, false, false];
+  @override
+  void initState() {
+    context.read<FetchHappinessTaskBloc>().add(FetchTaskEvent());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,13 +79,24 @@ class _HappinessScreenState extends State<HappinessScreen> {
                     Column(
                       children: [
                         Expanded(
-                          child: BlocBuilder<CheckboxBloc, CheckboxState>(
-                            builder: (context, state) {
-                              taskCheckbox = state is CheckboxClickState
-                                  ? state.taskCheckList
-                                  : taskCheckbox;
+                            child: BlocConsumer<FetchHappinessTaskBloc,
+                                FetchHappinessTaskState>(
+                          listener: (context, state) {
+                            if (state is ErrorState) {
+                              Center(
+                                  child: Text(
+                                state.message,
+                                style: const TextStyle(
+                                    color: AppColor.textColor,
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w500),
+                              ));
+                            }
+                          },
+                          builder: (context, state) {
+                            if (state is SuccessState) {
                               return ListView.builder(
-                                  itemCount: taskList.length,
+                                  itemCount: state.happinessTaskModel.count,
                                   itemBuilder: (context, index) {
                                     return Padding(
                                       padding: const EdgeInsets.only(
@@ -103,18 +113,29 @@ class _HappinessScreenState extends State<HappinessScreen> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Checkbox(
-                                                  activeColor:
-                                                      AppColor.primaryColor,
-                                                  value: taskCheckbox[index],
-                                                  onChanged: ((value) {
-                                                    context
-                                                        .read<CheckboxBloc>()
-                                                        .add(CheckboxClickEvent(
-                                                            taskCheckList:
-                                                                taskCheckbox,
-                                                            index: index));
-                                                  })),
+                                              BlocBuilder<CheckboxBloc,
+                                                  CheckboxState>(
+                                                builder: (context, state) {
+                                                  taskCheckbox = state
+                                                          is CheckboxClickState
+                                                      ? state.taskCheckList
+                                                      : taskCheckbox;
+                                                  return Checkbox(
+                                                      activeColor:
+                                                          AppColor.primaryColor,
+                                                      value:
+                                                          taskCheckbox[index],
+                                                      onChanged: ((value) {
+                                                        context
+                                                            .read<
+                                                                CheckboxBloc>()
+                                                            .add(CheckboxClickEvent(
+                                                                taskCheckList:
+                                                                    taskCheckbox,
+                                                                index: index));
+                                                      }));
+                                                },
+                                              ),
                                               const SizedBox(
                                                 width: 9.0,
                                               ),
@@ -127,7 +148,11 @@ class _HappinessScreenState extends State<HappinessScreen> {
                                                       height: 12.0,
                                                     ),
                                                     Text(
-                                                      taskList[index],
+                                                      state
+                                                          .happinessTaskModel
+                                                          .info![index]
+                                                          .taskTitle
+                                                          .toString(),
                                                       overflow:
                                                           TextOverflow.visible,
                                                       style: const TextStyle(
@@ -141,7 +166,11 @@ class _HappinessScreenState extends State<HappinessScreen> {
                                                       height: 8.0,
                                                     ),
                                                     Text(
-                                                      taskDescription[index],
+                                                      state
+                                                          .happinessTaskModel
+                                                          .info![index]
+                                                          .taskDescription
+                                                          .toString(),
                                                       style: const TextStyle(
                                                           fontSize: 12,
                                                           color: AppColor
@@ -160,9 +189,23 @@ class _HappinessScreenState extends State<HappinessScreen> {
                                       ),
                                     );
                                   });
-                            },
-                          ),
-                        ),
+                            } else if (state is LoadingState) {
+                              return const Center(
+                                  child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ));
+                            } else {
+                              return const Center(
+                                  child: Text(
+                                "Something went wrong !!",
+                                style: TextStyle(
+                                    color: AppColor.textColor,
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w500),
+                              ));
+                            }
+                          },
+                        )),
                         Container(
                           height: 45,
                           padding: const EdgeInsets.only(
@@ -171,7 +214,16 @@ class _HappinessScreenState extends State<HappinessScreen> {
                           ),
                           alignment: Alignment.center,
                           child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => BlocProvider(
+                                              create: (context) =>
+                                                  AddNewTaskBloc(),
+                                              child: const AddNewTaskScreen(),
+                                            )));
+                              },
                               style: ElevatedButton.styleFrom(
                                   elevation: 2.0,
                                   backgroundColor: Colors.white,

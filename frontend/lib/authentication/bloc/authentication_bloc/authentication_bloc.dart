@@ -16,9 +16,7 @@ class AuthenticationBloc
     on<LoginWithPhoneNumberAndPasswordEvent>(
         _mapLoginWithPhoneNumberAndPasswordEvent);
     on<CreateAccountEvent>(_mapCreateAccountEvent);
-    on<ChangePasswordVisibilityEvent>(_mapChangePasswordVisibilityEvent);
-   
-    on<APITestEvent>(apiTest);
+    on<ChangePasswordEvent>(_mapChangePasswordEvent);
   }
 
   Future<void> _mapLoginWithPhoneNumberAndPasswordEvent(
@@ -44,10 +42,12 @@ class AuthenticationBloc
         final firstName = userModel.info!.firstName;
         final lastName = userModel.info!.lastName;
         final emailPhoneNumber = userModel.info!.emailPhoneNumber;
+        final userId = userModel.info!.id;
 
         prefs.setString('firstName', firstName.toString());
         prefs.setString('lastName', lastName.toString());
         prefs.setString('emailPhoneNumber', emailPhoneNumber.toString());
+        prefs.setString('userId', userId.toString());
 
         emit(SuccessState(
             firstName: firstName.toString(),
@@ -102,33 +102,21 @@ class AuthenticationBloc
     }
   }
 
-  Future<void> apiTest(
-    APITestEvent event,
-    Emitter<AuthenticationState> emit,
-  ) async {
+  Future _mapChangePasswordEvent(
+      ChangePasswordEvent event, Emitter<AuthenticationState> emit) async {
     emit(LoadingState());
     try {
-      var url = Uri.parse('http://10.0.2.2:8080/');
-      log("URL===$baseUrl");
-      var res = await http.get(url, headers: <String, String>{
+      var url = Uri.parse('$baseUrl/changePassword');
+      var res = await http.post(url, headers: <String, String>{
         'Context-Type': 'application/json;charSet=UTF-8'
+      }, body: <String, String>{
+        'emailPhoneNumber': event.emailPhoneNumber,
       });
 
-      log("ResBody===${res.body}");
       final jsonResponse = jsonDecode(res.body);
-      log("JsonResponse===$jsonResponse");
-
-      emit(APITestState());
+      log(jsonResponse);
     } catch (e) {
-      log("Error====$e");
       emit(ErrorState(message: 'Please Try Again Later !!'));
     }
   }
-
-  Future<void> _mapChangePasswordVisibilityEvent(
-      ChangePasswordVisibilityEvent event,
-      Emitter<AuthenticationState> emit) async {
-    emit(ChangePasswordVisibilityState());
-  }
-
 }

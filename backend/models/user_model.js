@@ -18,6 +18,10 @@ var UserSchema =  mongoose.Schema({
         type:String,
         required: true
     },
+    otp:{
+        type:String,
+    }
+
 })
 
 var UserSchema = mongoose.model('users', UserSchema, 'users'); 
