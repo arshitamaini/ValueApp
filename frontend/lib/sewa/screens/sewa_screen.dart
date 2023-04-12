@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:value_app/checkbox_bloc/checkbox_bloc.dart';
 import 'package:value_app/res/color.dart';
 import 'package:value_app/sewa/bloc/add_new_task_bloc/add_new_task_bloc.dart';
 import 'package:value_app/sewa/bloc/fetch_task_bloc/fetch_task_bloc.dart';
@@ -13,6 +14,17 @@ class SewaScreen extends StatefulWidget {
 }
 
 class _SewaScreenState extends State<SewaScreen> {
+  List<bool> taskCheckbox = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ];
   @override
   void initState() {
     context.read<FetchSewaTaskBloc>().add(FetchTask());
@@ -137,18 +149,31 @@ class _SewaScreenState extends State<SewaScreen> {
                                             children: [
                                               Row(
                                                 children: [
-                                                  Checkbox(
-                                                    value: false,
-                                                    onChanged: ((value) {}),
-                                                    side: const BorderSide(
-                                                        color: AppColor
-                                                            .primaryColor),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              4.0),
-                                                    ),
+                                                  BlocBuilder<CheckboxBloc,
+                                                      CheckboxState>(
+                                                    builder: (context,
+                                                        checkBoxstate) {
+                                                      taskCheckbox = checkBoxstate
+                                                              is CheckboxClickState
+                                                          ? checkBoxstate
+                                                              .taskCheckList
+                                                          : taskCheckbox;
+                                                      return Checkbox(
+                                                          activeColor: AppColor
+                                                              .primaryColor,
+                                                          value: taskCheckbox[
+                                                              index],
+                                                          onChanged: ((value) {
+                                                            context
+                                                                .read<
+                                                                    CheckboxBloc>()
+                                                                .add(CheckboxClickEvent(
+                                                                    taskCheckList:
+                                                                        taskCheckbox,
+                                                                    index:
+                                                                        index));
+                                                          }));
+                                                    },
                                                   ),
                                                   Text(
                                                     state.sewaModel.info![index]
