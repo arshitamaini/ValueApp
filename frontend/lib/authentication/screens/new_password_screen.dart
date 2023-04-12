@@ -39,7 +39,32 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                   topLeft: Radius.circular(15.0),
                 )),
             child: BlocConsumer<AuthenticationBloc, AuthenticationState>(
-              listener: (_, state) {},
+              listener: (context, state) {
+                if (state is LoadingState) {
+                  const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (state is ErrorState) {
+                  Center(
+                    child: Text(state.message,
+                        style: const TextStyle(
+                            color: AppColor.textColor,
+                            fontSize: 14,
+                            overflow: TextOverflow.visible)),
+                  );
+                }
+                if (state is SuccessPasswordChangeState) {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => BlocProvider(
+                                create: (context) => AuthenticationBloc(),
+                                child: const LoginScreen(),
+                              )),
+                      ModalRoute.withName(LoginScreen.tag));
+                }
+              },
               builder: (context, state) {
                 return Padding(
                   padding: const EdgeInsets.fromLTRB(26, 40, 27, 0),
