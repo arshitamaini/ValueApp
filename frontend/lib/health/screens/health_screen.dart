@@ -319,37 +319,37 @@ class _HealthScreenState extends State<HealthScreen> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 17, right: 31, top: 23),
-                          child: Container(
-                            padding: const EdgeInsets.all(8.0),
-                            decoration: const BoxDecoration(boxShadow: [
-                              BoxShadow(
-                                  blurRadius: 15.0,
-                                  offset: Offset(0, 2),
-                                  color: Color.fromARGB(15, 0, 0, 0))
-                            ]),
-                            child: Column(
-                              children: [
-                                Container(
-                                  alignment: Alignment.centerLeft,
-                                  child: const Column(
-                                    children: [
-                                      Text(
-                                        'Complete',
-                                        style: TextStyle(
-                                            color: Color(0xff6552B1),
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 14.0),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        )
+                        // Padding(
+                        //   padding: const EdgeInsets.only(
+                        //       left: 17, right: 31, top: 23),
+                        //   child: Container(
+                        //     padding: const EdgeInsets.all(8.0),
+                        //     decoration: const BoxDecoration(boxShadow: [
+                        //       BoxShadow(
+                        //           blurRadius: 15.0,
+                        //           offset: Offset(0, 2),
+                        //           color: Color.fromARGB(15, 0, 0, 0))
+                        //     ]),
+                        //     child: Column(
+                        //       children: [
+                        //         Container(
+                        //           alignment: Alignment.centerLeft,
+                        //           child: const Column(
+                        //             children: [
+                        //               Text(
+                        //                 'Complete',
+                        //                 style: TextStyle(
+                        //                     color: Color(0xff6552B1),
+                        //                     fontWeight: FontWeight.w700,
+                        //                     fontSize: 14.0),
+                        //               ),
+                        //             ],
+                        //           ),
+                        //         )
+                        //       ],
+                        //     ),
+                        //   ),
+                        // )
                       ],
                     ),
                   ),

@@ -456,7 +456,8 @@ class _SleepScreenState extends State<SleepScreen> {
                                             series: <
                                                 ChartSeries<SleepDataModel,
                                                     String>>[
-                                              BarSeries<SleepDataModel, String>(
+                                              ColumnSeries<SleepDataModel,
+                                                      String>(
                                                   dataSource: data,
                                                   xValueMapper:
                                                       (SleepDataModel data,

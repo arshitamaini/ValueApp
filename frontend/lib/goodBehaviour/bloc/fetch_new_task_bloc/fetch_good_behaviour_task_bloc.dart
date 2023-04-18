@@ -24,7 +24,7 @@ class FetchGoodBehaviourTaskBloc
 
     try {
       var url =
-          Uri.parse("http://10.0.2.2:8080/valueApp/fetchGoodBehaviourTask");
+          Uri.parse("http://10.0.2.2:8080/valueApp/fetch_good_behaviour_task");
 
       var res = await http.post(url, headers: <String, String>{
         'Context-Type': 'application/json;charSet=UTF-8'

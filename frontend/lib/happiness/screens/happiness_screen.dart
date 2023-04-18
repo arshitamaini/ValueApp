@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:value_app/checkbox_bloc/checkbox_bloc.dart';
+import 'package:value_app/common_bloc/checkbox_bloc/checkbox_bloc.dart';
 import 'package:value_app/happiness/bloc/add_new_task_bloc/add_new_task_bloc.dart';
 import 'package:value_app/happiness/bloc/fetch_task_bloc/fetch_happiness_task_bloc.dart';
 import 'package:value_app/res/color.dart';
@@ -14,7 +14,16 @@ class HappinessScreen extends StatefulWidget {
 }
 
 class _HappinessScreenState extends State<HappinessScreen> {
-  List<bool> taskCheckbox = [false, false, false, false, false];
+  List<bool> taskCheckbox = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ];
 
   @override
   void initState() {

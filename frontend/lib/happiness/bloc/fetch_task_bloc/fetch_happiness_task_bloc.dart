@@ -20,7 +20,7 @@ class FetchHappinessTaskBloc
     String userId = prefs.getString('userId').toString();
 
     try {
-      var url = Uri.parse("http://10.0.2.2:8080/valueApp/fetchHappinessTask");
+      var url = Uri.parse("http://10.0.2.2:8080/valueApp/fetch_happiness_task");
 
       var res = await http.post(url, headers: <String, String>{
         'Context-Type': 'application/json;charSet=UTF-8'
@@ -29,7 +29,7 @@ class FetchHappinessTaskBloc
       });
 
       final jsonResponse = jsonDecode(res.body);
-      
+
       HappinessTaskModel happinessTaskModel =
           HappinessTaskModel.fromJson(jsonResponse);
 

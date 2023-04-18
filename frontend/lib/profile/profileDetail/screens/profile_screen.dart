@@ -19,7 +19,6 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
-    // getData();
     super.initState();
     context.read<ProfileBloc>().add(FetchData());
   }

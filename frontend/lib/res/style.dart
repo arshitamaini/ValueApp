@@ -34,6 +34,20 @@ abstract class AppStyle {
     contentPadding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
   );
 
+  static InputDecoration textFieldstyle2 = const InputDecoration(
+      hintText: 'Add Here',
+      hintStyle: TextStyle(
+          color: Color(0xffCAC9CC), fontWeight: FontWeight.w400, fontSize: 14),
+      focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+        color: Colors.white,
+      )),
+      enabledBorder: UnderlineInputBorder(
+        borderSide: BorderSide(
+          color: Colors.white,
+        ),
+      ));
+
   static TextStyle screenHeadingStyle = const TextStyle(
       color: AppColor.textColor, fontSize: 20.0, fontWeight: FontWeight.w700);
   static TextStyle textFieldLabelStyle = const TextStyle(

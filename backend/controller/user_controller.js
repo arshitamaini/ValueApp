@@ -70,16 +70,21 @@ var UserController = {
     },
 
     changePassword : async function(req,res) {
-        try{   
-        userModel.findOneAndUpdate({emailPhoneNumber:req.body.emailPhoneNumber},{$set: {password:req.body.newPassword}, }, {new:true},function(err,docs){
-            if(err) res.json({'success': false, 'mesage': 'Failed To Change Password',  code:500, info:{}})
-            else{
-                docs = JSON.parse(JSON.stringify(docs))
-                console.log(docs)
-                res.json({'success': true, 'message':'Password changed successfullly', code:200, info:docs})
-            }
+        try{ 
+            
+
+                userModel.findOneAndUpdate({emailPhoneNumber:req.body.emailPhoneNumber},{$set: {password:req.body.newPassword}, }, {new:true},function(err,docs){
+                    if(err) res.json({'success': false, 'mesage': 'Failed To Change Password',  code:500, info:{}})
+                    else{
+                        docs = JSON.parse(JSON.stringify(docs))
+                        console.log(docs)
+                        res.json({'success': true, 'message':'Password changed successfullly', code:200, info:docs})
+                    }
+                
+                });
+
+            
         
-        });
     }
         catch(e){
             console.log('error'+e)
@@ -97,8 +102,9 @@ var UserController = {
                 }else{
                     if(user == null){
                         res.json({ 'success': false, 'message': 'Account Not Found, Please SignIn', code: 500, info:{} })
-                        // console.log({ 'success': false, 'message': 'Account Not Found, Please SignIn', code: 500, info:{} })
+                       
                     }else{
+                       
                         let random = Math.floor(Math.random() * 900000) + 100000;
                         random = random.toString();
                         
@@ -115,7 +121,7 @@ var UserController = {
                 }
             })
         }catch(e){
-            console.log('error'+e)
+            console.log('error === '+e)
             res.json({'success': false, 'message' : e, code:500, info:{}})
           
         }
@@ -130,7 +136,7 @@ var UserController = {
                 }else{
                     if(user == null){
                         res.json({ 'success': false, 'message': 'Account Not Found, Please SignIn', code: 500, info:{} })
-                        console.log({ 'success': false, 'message': 'Account Not Found, Please SignIn', code: 500, info:{} })
+    
                     }else{
                         if(user.otp == req.body.otp){
                             res.json({ 'success': true, 'message': 'OTP verified successfully', code: 200, info:{} })   

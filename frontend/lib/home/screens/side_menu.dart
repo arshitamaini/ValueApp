@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:value_app/authentication/bloc/authentication_bloc/authentication_bloc.dart';
-import 'package:value_app/authentication/screens/login_screen.dart';
+import 'package:value_app/authentication/login_signup/bloc/authentication_bloc.dart';
+import 'package:value_app/authentication/login_signup/screens/login_screen.dart';
+import 'package:value_app/common_bloc/password_visibility_bloc/password_visibility_bloc.dart';
 import 'package:value_app/home/screens/new_task_screen.dart';
 import 'package:value_app/home/screens/settings_screen.dart';
-import 'package:value_app/password_visibility_bloc/password_visibility_bloc.dart';
 import 'package:value_app/res/color.dart';
 import 'package:value_app/res/style.dart';
 

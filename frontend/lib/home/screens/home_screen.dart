@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:value_app/checkbox_bloc/checkbox_bloc.dart';
+import 'package:value_app/common_bloc/checkbox_bloc/checkbox_bloc.dart';
 import 'package:value_app/goodBehaviour/bloc/fetch_new_task_bloc/fetch_good_behaviour_task_bloc.dart';
 import 'package:value_app/goodBehaviour/screens/good_behaviour_screen.dart';
 import 'package:value_app/happiness/bloc/fetch_task_bloc/fetch_happiness_task_bloc.dart';

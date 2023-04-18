@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:value_app/checkbox_bloc/checkbox_bloc.dart';
+import 'package:value_app/common_bloc/checkbox_bloc/checkbox_bloc.dart';
 import 'package:value_app/res/color.dart';
 import 'package:value_app/sewa/bloc/add_new_task_bloc/add_new_task_bloc.dart';
 import 'package:value_app/sewa/bloc/fetch_task_bloc/fetch_task_bloc.dart';

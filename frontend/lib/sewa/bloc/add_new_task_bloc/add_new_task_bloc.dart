@@ -18,7 +18,7 @@ class AddNewTaskBloc extends Bloc<AddNewTaskEvent, AddNewTaskState> {
 
     try {
       emit(LoadingNewTaskState());
-      var url = Uri.parse("http://10.0.2.2:8080/valueApp/addNewSewaTask");
+      var url = Uri.parse("http://10.0.2.2:8080/valueApp/add_new_sewa_task");
       var res = await http.post(url, headers: <String, String>{
         'Context-Type': 'application/json;charSet=UTF-8'
       }, body: <String, String>{

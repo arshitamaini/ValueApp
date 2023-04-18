@@ -15,7 +15,7 @@ class FetchNitnemTaskBloc
       FetchTask event, Emitter<FetchNitnemTaskState> emit) async {
     emit(LoadingState());
     try {
-      var url = Uri.parse("http://10.0.2.2:8080/valueApp/fetchNitnemTask");
+      var url = Uri.parse("http://10.0.2.2:8080/valueApp/fetch_nitnem_task");
       var res = await http.post(url);
 
       final jsonResponse = jsonDecode(res.body);

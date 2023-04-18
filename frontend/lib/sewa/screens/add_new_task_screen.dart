@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:value_app/common_bloc/checkbox_bloc/checkbox_bloc.dart';
 import 'package:value_app/res/color.dart';
 import 'package:value_app/res/style.dart';
 import 'package:value_app/sewa/bloc/add_new_task_bloc/add_new_task_bloc.dart';
@@ -68,8 +69,15 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => BlocProvider(
-                                create: (context) => FetchSewaTaskBloc(),
+                          builder: (context) => MultiBlocProvider(
+                                providers: [
+                                  BlocProvider(
+                                    create: (context) => FetchSewaTaskBloc(),
+                                  ),
+                                  BlocProvider(
+                                    create: (context) => CheckboxBloc(),
+                                  ),
+                                ],
                                 child: const SewaScreen(),
                               )));
                 }
